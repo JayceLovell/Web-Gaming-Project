@@ -27,8 +27,8 @@ var scenes;
         };
         // Use start function to create objects
         StartScene.prototype.Start = function () {
-            this.welcomeLabel = new objects.Label("Welcome!", "60px", "Consolas", "#000000", 320, 240, true);
-            this.startButton = new objects.Button(this.assetManager, "startButton", 320, 300);
+            this.welcomeLabel = new objects.Label("Miner Horror Never Ending Cause \n He  Failed To Win A Race In \n Part Two and Died In Part 1 \n So Now He Is in part three \n fighting for his life in hell \n against an annoying precision \n platformer", "32px", "Consolas", "#000000", 1800, 140, true);
+            this.startButton = new objects.Button(this.assetManager, "startButton", 320, 400);
             this.Main();
         };
         StartScene.prototype.Update = function () {
