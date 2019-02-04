@@ -16,7 +16,8 @@
     assetManifest = [
         { id: "startButton", src: "./Assets/Images/startButton.png" },
         { id: "nextButton", src: "./Assets/Images/nextButton.png" },
-        { id: "backButton", src: "./Assets/Images/backButton.png" }
+        { id: "backButton", src: "./Assets/Images/backButton.png" },
+        { id: "backgroundimage", src: "./Assets/Images/backgroundimage.png" }
     ];
     function Init() {
         console.log("Initialization start");
