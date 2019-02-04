@@ -17,7 +17,8 @@
         { id: "startButton", src: "./Assets/Images/startButton.png" },
         { id: "nextButton", src: "./Assets/Images/nextButton.png" },
         { id: "backButton", src: "./Assets/Images/backButton.png" },
-        { id: "backgroundimage", src: "./Assets/Images/backgroundimage.png" }
+        { id: "backGroundImageMain", src: "./Assets/Images/backgroundimage.png" },
+        { id: "backGroundImagePlay", src: "./Assets/Images/LevelLayout.jpg" }
     ];
     function Init() {
         console.log("Initialization start");

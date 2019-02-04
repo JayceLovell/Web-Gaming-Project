@@ -23,9 +23,10 @@ var scenes;
         }
         // Methods
         PlayScene.prototype.Start = function () {
-            this.playLabel = new objects.Label("Game Playing", "40px", "Consolas", "#000000", 320, 240, true);
+            this.playLabel = new objects.Label("Game Playing", "40px", "Consolas", "#FFFFFF", 320, 100, true);
             this.nextButton = new objects.Button(this.assetManager, "nextButton", 500, 340);
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
+            this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
             this.Main();
         };
         PlayScene.prototype.Update = function () {
@@ -39,6 +40,7 @@ var scenes;
             objects.Game.currentScene = config.Scene.START;
         };
         PlayScene.prototype.Main = function () {
+            this.addChild(this.backGroundImage);
             this.addChild(this.playLabel);
             this.addChild(this.nextButton);
             this.addChild(this.backButton);
