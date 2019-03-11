@@ -1,12 +1,14 @@
 module objects {
-    export class checkPoint extends GameObject {
+    export class hand extends GameObject {
 
-        public index:number;
+        // Constructor
         constructor(assetManager: createjs.LoadQueue, imageString:string, x:number = 0, y:number = 0,xmin:number,xmax:number, ymin:number,ymax:number) {
             super(assetManager,imageString); 
         }
 
         public Update()
-        {}
+        {
+            
+        }
     }
 }
