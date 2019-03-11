@@ -15,7 +15,6 @@ var objects;
 (function (objects) {
     var Player = /** @class */ (function (_super) {
         __extends(Player, _super);
-        // Variables
         // Constructor
         function Player(assetManager) {
             var _this = _super.call(this, assetManager, "player") || this;
@@ -25,14 +24,37 @@ var objects;
         // Methods / functions
         Player.prototype.Start = function () {
             this.y = 700;
+            this.isDead = false;
+            this.x = 100;
+            this.speed = 5;
+            this.vSpeed = 1;
         };
         Player.prototype.Update = function () {
             this.Move();
             this.CheckBounds();
+            if (this.vSpeed < 5) {
+                this.vSpeed += 0.12;
+            }
+            this.y += this.vSpeed;
         };
         Player.prototype.Reset = function () { };
         Player.prototype.Move = function () {
-            this.x = objects.Game.stage.mouseX; // objects.Game.stage is a global variable
+            //this.x = objects.Game.stage.mouseX; // objects.Game.stage is a global variable
+            if (objects.Game.keyboardManager.moveLeft) {
+                this.x -= this.speed;
+            }
+            if (objects.Game.keyboardManager.moveRight) {
+                this.x += this.speed;
+            }
+            if (objects.Game.keyboardManager.moveUp) {
+                //this.y -= 1;
+                // if(this.vSpeed >0){
+                //     this.vSpeed *= -1;
+                // }
+            }
+            if (objects.Game.keyboardManager.moveDown) {
+                this.y += this.speed;
+            }
         };
         Player.prototype.CheckBounds = function () {
             // Check right boundary

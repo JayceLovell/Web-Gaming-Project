@@ -13,6 +13,7 @@
     var assetManifest; // Basically a "struct". Placeholder for now.\
     var currentScene;
     var currentState;
+    var keyboardManager;
     assetManifest = [
         { id: "startButton", src: "./Assets/Images/startButton.png" },
         { id: "nextButton", src: "./Assets/Images/nextButton.png" },
@@ -37,6 +38,8 @@
         createjs.Ticker.on("tick", Update);
         objects.Game.currentScene = config.Scene.START;
         currentState = config.Scene.START;
+        keyboardManager = new managers.Keyboard();
+        objects.Game.keyboardManager = keyboardManager;
         Main();
     }
     function Update() {
