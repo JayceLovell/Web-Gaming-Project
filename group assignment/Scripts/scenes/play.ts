@@ -5,6 +5,12 @@ module scenes {
         private nextButton: objects.Button;
         private backButton: objects.Button;
         private backGroundImage: objects.Image;
+        private win:objects.GameObject;
+        private player:objects.Player;
+        private walls:objects.wall[];
+        private ghost:objects.ghost[];
+        private hands:objects.ghost[];
+        private checkPoint:objects.checkPoint[];
         // Constructor
         constructor(assetManager:createjs.LoadQueue) {
             super(assetManager);
@@ -23,7 +29,38 @@ module scenes {
         public Update(): void {
             
 
-            this.backButton.setX(this.backButton.getX() + 5);
+            //this.backButton.setX(this.backButton.getX() + 5);
+
+            /*
+            this.player.Update();
+
+            this.walls.forEach(wall => {
+                if(managers.Collision.Check(this.player, wall)){
+                    dies
+                }
+            });   
+            this.ghost.forEach(ghost => {
+                ghost.Update();
+                if(managers.Collision.Check(this.player, ghost)){
+                    dies
+                }
+            });   
+            this.hands.forEach(hand => {
+                if(managers.Collision.Check(this.player, hand)){
+                    dies
+                }
+            });   
+            this.checkPoint.forEach(checkPoint => {
+                checkPoint.Update();
+                if(managers.Collision.Check(this.player, checkPoint)){
+                    activate checkpoint
+                }
+            });
+
+            if(managers.Collision.Check(this.win, checkPoint)){
+                    activate checkpoint
+                }  
+            */
         }
 
 
