@@ -23,9 +23,9 @@ var objects;
         }
         // Methods / functions
         Player.prototype.Start = function () {
-            this.y = 700;
-            this.isDead = false;
-            this.x = 100;
+            this.y = 50;
+            this.colliding = false;
+            this.x = 50;
             this.speed = 5;
             this.vSpeed = 1;
         };
@@ -47,10 +47,12 @@ var objects;
                 this.x += this.speed;
             }
             if (objects.Game.keyboardManager.moveUp) {
-                //this.y -= 1;
-                // if(this.vSpeed >0){
-                //     this.vSpeed *= -1;
-                // }
+                if (this.colliding == true) {
+                    this.y -= 1;
+                    if (this.vSpeed > 0) {
+                        this.vSpeed *= -1;
+                    }
+                }
             }
             if (objects.Game.keyboardManager.moveDown) {
                 this.y += this.speed;

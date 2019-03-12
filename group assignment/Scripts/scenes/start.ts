@@ -6,6 +6,7 @@ module scenes {
         private startButton: objects.Button;
         private bgImage: objects.Image;
 
+
         // Constructors
         constructor(assetManager: createjs.LoadQueue) {
             super(assetManager);

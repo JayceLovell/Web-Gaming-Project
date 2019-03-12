@@ -25,7 +25,11 @@
         {id: "nextButton", src:"./Assets/Images/nextButton.png"},
         {id: "backButton", src:"./Assets/Images/backButton.png"},
         {id: "backGroundImageMain", src:"./Assets/Images/backgroundimage.png"},
-        {id: "backGroundImagePlay", src:"./Assets/Images/LevelLayout.jpg"}
+        {id: "backGroundImagePlay", src:"./Assets/Images/LevelLayout.jpg"},
+        {id: "wall", src:"./Assets/Images/platform.png"},
+        {id: "player", src:"./Assets/Images/nextButton.png"},
+
+
     ];
 
     function Init():void {

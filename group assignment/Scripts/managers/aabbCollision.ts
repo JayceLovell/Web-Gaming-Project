@@ -1,4 +1,4 @@
-module managers {
+ module managers {
     export class AABBCollisions {
         private static explodeSFX:createjs.AbstractSoundInstance
 
