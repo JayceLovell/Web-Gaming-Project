@@ -30,8 +30,8 @@ module objects {
             this.Move();
             this.CheckBounds();
 
-            if(this.vSpeed < 5){
-                this.vSpeed +=0.12;
+            if(this.vSpeed < 15){
+                this.vSpeed +=0.7;
             }
             this.y += this.vSpeed;
         }
@@ -52,7 +52,7 @@ module objects {
                 if(this.colliding == true){
                     this.y -= 1;
                     if(this.vSpeed >0){
-                        this.vSpeed *= -1;
+                        this.vSpeed = -15;
     
                     }
                 }
