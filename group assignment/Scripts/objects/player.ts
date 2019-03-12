@@ -1,7 +1,7 @@
 module objects {
     export class Player extends objects.GameObject {
         // Variables
-        public isDead:boolean;
+        public colliding:boolean;
         public speed:number;
         public vSpeed:number;
         public previousX;
@@ -13,11 +13,11 @@ module objects {
         }
         // Methods / functions
         public Start():void {
-            this.y = 700;
+            this.y = 50;
 
-            this.isDead = false;
+            this.colliding = false;
  
-            this.x = 100;
+            this.x = 50;
             this.speed = 5;
             this.vSpeed = 1;
             this.previousX=this.x;
@@ -30,8 +30,8 @@ module objects {
             this.Move();
             this.CheckBounds();
 
-            if(this.vSpeed < 5){
-                this.vSpeed +=0.12;
+            if(this.vSpeed < 15){
+                this.vSpeed +=0.7;
             }
             this.y += this.vSpeed;
         }
@@ -49,6 +49,14 @@ module objects {
             }
 
             if(objects.Game.keyboardManager.moveUp){
+                if(this.colliding == true){
+                    this.y -= 1;
+                    if(this.vSpeed >0){
+                        this.vSpeed = -15;
+    
+                    }
+                }
+ 
             }
 
             if(objects.Game.keyboardManager.moveDown){
