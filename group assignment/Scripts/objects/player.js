@@ -28,8 +28,12 @@ var objects;
             this.x = 50;
             this.speed = 5;
             this.vSpeed = 1;
+            this.previousX = this.x;
+            this.previousY = this.y;
         };
         Player.prototype.Update = function () {
+            this.previousX = this.x;
+            this.previousY = this.y;
             this.Move();
             this.CheckBounds();
             if (this.vSpeed < 5) {
@@ -39,7 +43,6 @@ var objects;
         };
         Player.prototype.Reset = function () { };
         Player.prototype.Move = function () {
-            //this.x = objects.Game.stage.mouseX; // objects.Game.stage is a global variable
             if (objects.Game.keyboardManager.moveLeft) {
                 this.x -= this.speed;
             }
@@ -55,18 +58,20 @@ var objects;
                 }
             }
             if (objects.Game.keyboardManager.moveDown) {
-                this.y += this.speed;
             }
         };
         Player.prototype.CheckBounds = function () {
+            /*
             // Check right boundary
-            if (this.x >= 600 - this.halfW) {
+            if(this.x >= 600 - this.halfW) {
                 this.x = 600 - this.halfW;
             }
+
             // Check left boundary
-            if (this.x <= this.halfW) {
+            if(this.x <= this.halfW) {
                 this.x = this.halfW;
             }
+            */
         };
         return Player;
     }(objects.GameObject));

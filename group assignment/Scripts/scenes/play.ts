@@ -10,6 +10,13 @@ module scenes {
 
         private floor:objects.Wall;
         
+        private win:objects.GameObject;
+
+        //private walls:objects.wall[];
+        private ghost:objects.ghost[];
+        private hands:objects.ghost[];
+        private checkPoint:objects.checkPoint[];
+        private checkPointIndex:number;
         // Constructor
         constructor(assetManager:createjs.LoadQueue) {
             super(assetManager);
@@ -25,6 +32,10 @@ module scenes {
             this.floor = new objects.Wall(this.assetManager,"wall",250,400);
             this.player = new objects.Player(this.assetManager);
 
+            this.checkPointIndex=0;
+
+            // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
+            
             this.Main();
 
         }
@@ -33,6 +44,43 @@ module scenes {
             this.player.Update();
 
             this.backButton.setX(this.backButton.getX() + 5);
+
+            //this.backButton.setX(this.backButton.getX() + 5);
+
+            /*
+            this.player.Update();
+
+            this.walls.forEach(wall => {
+                if(managers.Collision.Check(this.player, wall)){
+                    this.player.x=this.player.previousX;
+                    this.player.y=this.player.previousY;
+                }
+            });   
+            this.ghost.forEach(ghost => {
+                ghost.Update();
+                if(managers.Collision.Check(this.player, ghost)){
+                    this.player.x=checkPoint[checkPointIndex].x;
+                    this.player.y=checkPoint[checkPointIndex].y;
+                }
+            });   
+            this.hands.forEach(hand => {
+                if(managers.Collision.Check(this.player, hand)){
+                    this.player.x=checkPoint[checkPointIndex].x;
+                    this.player.y=checkPoint[checkPointIndex].y;
+                }
+            });   
+            this.checkPoint.forEach(checkPoint => {
+                if(managers.Collision.Check(this.player, checkPoint)){
+                    checkPointIndex=checkPoint.index;
+                }
+            });
+
+            if(managers.Collision.Check(this.win, checkPoint)){
+                    objects.Game.currentScene = config.Scene.OVER;
+                }  
+            
+        }
+        */
 
             this.player.colliding = managers.AABBCollisions.Check(this.player,this.floor);
 
