@@ -29,6 +29,7 @@ var scenes;
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
             this.checkPointIndex = 0;
             this.tileSize = 32;
+            this.walls = new Array();
             // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
             //this.floor = new objects.Wall(250,400);
             this.GenerateLevel(1);
@@ -55,7 +56,7 @@ var scenes;
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", ""],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""]
+                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""]
                     ];
                     break;
                 default:
@@ -65,10 +66,10 @@ var scenes;
                 for (var j = 0; j < 20; j++) {
                     switch (this.initMap[i][j]) {
                         case "wall":
-                            //this.gameobjects[this.gameobjects.length]=(new objects.Wall((i+0.5)*this.tileSize,(j+0.5)*this.tileSize));
+                            this.walls.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
                             break;
                         case "player":
-                            this.player = new objects.Player((i + 0.5) * this.tileSize, (j + 0.5) * this.tileSize);
+                            this.player = new objects.Player((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
                             break;
                         default:
                             break;
@@ -77,18 +78,23 @@ var scenes;
             }
         };
         PlayScene.prototype.Update = function () {
+            var _this = this;
             this.player.Update();
             this.backButton.setX(this.backButton.getX() + 5);
             //this.backButton.setX(this.backButton.getX() + 5);
-            /*
-            this.player.Update();
-
-            this.walls.forEach(wall => {
-                if(managers.Collision.Check(this.player, wall)){
-                    this.player.x=this.player.previousX;
-                    this.player.y=this.player.previousY;
+            this.walls.forEach(function (wall) {
+                if (managers.AABBCollisions.Check(_this.player, wall)) {
+                    if (_this.player.y >= wall.y) {
+                        _this.player.y = wall.y + (wall.regY + (wall.height / 2));
+                    }
+                    else {
+                        _this.player.y = wall.y - (wall.regY + (wall.height / 2));
+                    }
+                    //this.player.x=this.player.previousX;
+                    //this.player.y=this.player.previousY;
                 }
             });
+            /*
             this.ghost.forEach(ghost => {
                 ghost.Update();
                 if(managers.Collision.Check(this.player, ghost)){
@@ -114,17 +120,23 @@ var scenes;
             
         }
         */
-            this.player.colliding = managers.AABBCollisions.Check(this.player, this.floor);
-            if (this.player.colliding) {
-                if (this.player.y >= this.floor.y) {
-                    this.player.y = this.floor.y + (this.floor.regY + (this.floor.height / 2));
-                }
-                else {
-                    this.player.y = this.floor.y - (this.floor.regY + (this.floor.height / 2));
-                }
-                //this.backgroundMusic.stop();
-                //objects.Game.currentScene = config.Scene.OVER;
-            }
+            /*
+                        this.player.colliding = managers.AABBCollisions.Check(this.player,this.floor);
+            
+                        if(this.player.colliding) {
+                            if(this.player.y >= this.floor.y ){
+                                this.player.y = this.floor.y + (this.floor.regY +(this.floor.height/2));
+                            }else{
+                                this.player.y = this.floor.y - (this.floor.regY +(this.floor.height/2));
+            
+                            }
+                            
+                            
+                            //this.backgroundMusic.stop();
+                            //objects.Game.currentScene = config.Scene.OVER;
+                        }
+            
+            */
         };
         // Button Even Handlers
         PlayScene.prototype.nextButtonClick = function () {
@@ -134,13 +146,13 @@ var scenes;
             objects.Game.currentScene = config.Scene.START;
         };
         PlayScene.prototype.Main = function () {
+            var _this = this;
             //this.addChild(this.backGroundImage);
             this.addChild(this.playLabel);
             this.addChild(this.player);
-            /*
-            this.gameobjects.forEach(x => {
-                this.addChild(x)
-            });*/
+            this.walls.forEach(function (x) {
+                _this.addChild(x);
+            });
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
         };

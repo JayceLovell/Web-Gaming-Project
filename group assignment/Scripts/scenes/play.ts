@@ -19,7 +19,8 @@ module scenes {
         private checkPoint:objects.checkPoint[];
         private checkPointIndex:number;
         private initMap:string[][];
-        private gameobjects:objects.GameObject[];
+        //private gameobjects:objects.GameObject[];
+        private walls:Array<objects.GameObject>;
         // Constructor
         constructor(assetManager:createjs.LoadQueue) {
             super(assetManager);
@@ -34,6 +35,7 @@ module scenes {
             this.backGroundImage = new objects.Image(this.assetManager,"backGroundImagePlay",320, 400);
             this.checkPointIndex=0;
             this.tileSize=32;
+            this.walls=new Array();
     
 
             // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
@@ -64,7 +66,7 @@ module scenes {
                                 ["wall","wall","","","","","","","","","","","","","wall","wall","wall","wall","",""],
                                 ["wall","wall","","","","","","","","","","","","","wall","wall","wall","wall","",""],
                                 ["wall","wall","","","","","","","","","","","","","wall","wall","wall","","",""],
-                                ["wall","wall","","","","","","wall","wall","wall","","","","","wall","wall","wall","","",""]
+                                ["wall","wall","wall","wall","wall","wall","wall","wall","wall","wall","","","","","wall","wall","wall","","",""]
                             ] ;
                 break;
                 default:
@@ -76,10 +78,10 @@ module scenes {
                 for(var j = 0; j < 20; j++) {
                     switch(this.initMap[i][j]){
                         case "wall":
-                            //this.gameobjects[this.gameobjects.length]=(new objects.Wall((i+0.5)*this.tileSize,(j+0.5)*this.tileSize));
+                            this.walls.push(new objects.Wall((j+0.5)*this.tileSize,(i+0.5)*this.tileSize));
                             break;
                         case "player":
-                            this.player=new objects.Player((i+0.5)*this.tileSize,(j+0.5)*this.tileSize);
+                            this.player=new objects.Player((j+0.5)*this.tileSize,(i+0.5)*this.tileSize);
                             break;
                         default:
                         break;
@@ -96,15 +98,19 @@ module scenes {
 
             //this.backButton.setX(this.backButton.getX() + 5);
 
-            /*
-            this.player.Update();
-
             this.walls.forEach(wall => {
-                if(managers.Collision.Check(this.player, wall)){
-                    this.player.x=this.player.previousX;
-                    this.player.y=this.player.previousY;
+                if(managers.AABBCollisions.Check(this.player, wall)){
+                    if(this.player.y >= wall.y ){
+                        this.player.y = wall.y + (wall.regY +(wall.height/2));
+                    }else{
+                        this.player.y = wall.y - (wall.regY +(wall.height/2));
+    
+                    }
+                    //this.player.x=this.player.previousX;
+                    //this.player.y=this.player.previousY;
                 }
             });   
+            /*
             this.ghost.forEach(ghost => {
                 ghost.Update();
                 if(managers.Collision.Check(this.player, ghost)){
@@ -130,7 +136,7 @@ module scenes {
             
         }
         */
-
+/*
             this.player.colliding = managers.AABBCollisions.Check(this.player,this.floor);
 
             if(this.player.colliding) {
@@ -141,11 +147,12 @@ module scenes {
 
                 }
                 
+                
                 //this.backgroundMusic.stop();
                 //objects.Game.currentScene = config.Scene.OVER;
             }
 
-
+*/
         }
 50
         // Button Even Handlers
@@ -161,10 +168,10 @@ module scenes {
             //this.addChild(this.backGroundImage);
             this.addChild(this.playLabel);
             this.addChild(this.player);
-            /*
-            this.gameobjects.forEach(x => {
+            
+            this.walls.forEach(x => {
                 this.addChild(x)
-            });*/
+            });
 
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
