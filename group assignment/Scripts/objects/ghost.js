@@ -16,10 +16,10 @@ var objects;
     var ghost = /** @class */ (function (_super) {
         __extends(ghost, _super);
         // Constructor
-        function ghost(assetManager, imageString, x, y, xmin, xmax, ymin, ymax) {
+        function ghost(x, y, xmin, xmax, ymin, ymax) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
-            var _this = _super.call(this, assetManager, imageString) || this;
+            var _this = _super.call(this, "player") || this;
             // Variables
             _this.forward = true;
             _this.xmin = xmin;
@@ -30,7 +30,7 @@ var objects;
             _this.y = y;
             return _this;
         }
-        // Methods
+        ghost.prototype.Start = function () { };
         ghost.prototype.Update = function () {
             if (this.forward) {
                 this.speedX = Math.abs(this.xmax - this.x);
@@ -45,6 +45,9 @@ var objects;
                     this.forward = true;
             }
         };
+        ghost.prototype.Reset = function () { };
+        ghost.prototype.Move = function () { };
+        ghost.prototype.CheckBounds = function () { };
         return ghost;
     }(objects.GameObject));
     objects.ghost = ghost;

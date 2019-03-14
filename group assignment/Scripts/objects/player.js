@@ -16,16 +16,18 @@ var objects;
     var Player = /** @class */ (function (_super) {
         __extends(Player, _super);
         // Constructor
-        function Player(assetManager) {
-            var _this = _super.call(this, assetManager, "player") || this;
+        function Player(x, y) {
+            if (x === void 0) { x = 0; }
+            if (y === void 0) { y = 0; }
+            var _this = _super.call(this, "player") || this;
             _this.Start();
+            _this.x = x;
+            _this.y = y;
             return _this;
         }
         // Methods / functions
         Player.prototype.Start = function () {
-            this.y = 50;
             this.colliding = false;
-            this.x = 50;
             this.speed = 5;
             this.vSpeed = 1;
             this.previousX = this.x;
@@ -36,8 +38,8 @@ var objects;
             this.previousY = this.y;
             this.Move();
             this.CheckBounds();
-            if (this.vSpeed < 5) {
-                this.vSpeed += 0.12;
+            if (this.vSpeed < 15) {
+                this.vSpeed += 0.7;
             }
             this.y += this.vSpeed;
         };
@@ -53,7 +55,7 @@ var objects;
                 if (this.colliding == true) {
                     this.y -= 1;
                     if (this.vSpeed > 0) {
-                        this.vSpeed *= -1;
+                        this.vSpeed = -15;
                     }
                 }
             }

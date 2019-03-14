@@ -15,10 +15,13 @@ var objects;
 (function (objects) {
     var checkPoint = /** @class */ (function (_super) {
         __extends(checkPoint, _super);
-        function checkPoint(assetManager, imageString, x, y, xmin, xmax, ymin, ymax) {
+        function checkPoint(x, y) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
-            return _super.call(this, assetManager, imageString) || this;
+            var _this = _super.call(this, "player") || this;
+            _this.x = x;
+            _this.y = y;
+            return _this;
         }
         checkPoint.prototype.Update = function () { };
         return checkPoint;

@@ -17,13 +17,10 @@ var objects;
         __extends(Wall, _super);
         // Variables
         // Constructor
-        function Wall(assetManager, imageString, x, y) {
+        function Wall(x, y) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
-            var _this = _super.call(this, assetManager, imageString) || this;
-            //super(assetManager.getResult(imageString));   // Actual loaded object is of type BLOB
-            // Because image is now guarenteed to be loaded we can do the following...
-            // Asset manager also returns a button object when getResult is called. 
+            var _this = _super.call(this, "wall") || this;
             _this.regX = _this.getBounds().width * 0.5;
             _this.regY = _this.getBounds().height * 0.5;
             _this.x = x;

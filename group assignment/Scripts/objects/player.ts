@@ -7,17 +7,15 @@ module objects {
         public previousX;
         public previousY;
         // Constructor
-        constructor(assetManager:createjs.LoadQueue) {
-            super(assetManager, "player");
+        constructor(x:number = 0, y:number = 0) {
+            super( "player");
             this.Start();
+            this.x = x;
+            this.y = y;
         }
         // Methods / functions
         public Start():void {
-            this.y = 50;
-
             this.colliding = false;
- 
-            this.x = 50;
             this.speed = 5;
             this.vSpeed = 1;
             this.previousX=this.x;

@@ -15,14 +15,16 @@ var objects;
 (function (objects) {
     var hand = /** @class */ (function (_super) {
         __extends(hand, _super);
-        // Constructor
-        function hand(assetManager, imageString, x, y, xmin, xmax, ymin, ymax) {
+        function hand(x, y, xmin, xmax, ymin, ymax) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
-            return _super.call(this, assetManager, imageString) || this;
+            return _super.call(this, "player") || this;
         }
-        hand.prototype.Update = function () {
-        };
+        hand.prototype.Start = function () { };
+        hand.prototype.Update = function () { };
+        hand.prototype.Reset = function () { };
+        hand.prototype.Move = function () { };
+        hand.prototype.CheckBounds = function () { };
         return hand;
     }(objects.GameObject));
     objects.hand = hand;

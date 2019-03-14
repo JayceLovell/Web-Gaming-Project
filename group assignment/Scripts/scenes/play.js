@@ -27,11 +27,54 @@ var scenes;
             this.nextButton = new objects.Button(this.assetManager, "nextButton", 500, 340);
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
-            this.floor = new objects.Wall(this.assetManager, "wall", 250, 400);
-            this.player = new objects.Player(this.assetManager);
             this.checkPointIndex = 0;
+            this.tileSize = 32;
             // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
+            //this.floor = new objects.Wall(250,400);
+            this.GenerateLevel(1);
             this.Main();
+        };
+        PlayScene.prototype.GenerateLevel = function (level) {
+            //map is 40 by 34. cut map into 4 pieces of 20 by 17. 
+            switch (level) {
+                //14 by
+                case 1:
+                    this.initMap = [["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "hands", "", "", "", "", "", "hands", "", "", "", ""],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "hands", "", "", "hands", "", "", "", "", "", "hands", "hands"],
+                        ["wall", "wall", "", "", "player", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "", "", "", "", "wall", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "wall", "hands", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
+                        ["wall", "wall", "", "", "", "", "", "", "", "", "green", "", "", "", "wall", "wall", "wall", "wall", "wall", ""],
+                        ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
+                        ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
+                        ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", ""],
+                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""]
+                    ];
+                    break;
+                default:
+                    break;
+            }
+            for (var i = 0; i < 17; i++) {
+                for (var j = 0; j < 20; j++) {
+                    switch (this.initMap[i][j]) {
+                        case "wall":
+                            //this.gameobjects[this.gameobjects.length]=(new objects.Wall((i+0.5)*this.tileSize,(j+0.5)*this.tileSize));
+                            break;
+                        case "player":
+                            this.player = new objects.Player((i + 0.5) * this.tileSize, (j + 0.5) * this.tileSize);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         };
         PlayScene.prototype.Update = function () {
             this.player.Update();
@@ -93,10 +136,11 @@ var scenes;
         PlayScene.prototype.Main = function () {
             //this.addChild(this.backGroundImage);
             this.addChild(this.playLabel);
-            //this.addChild(this.nextButton);
-            //this.addChild(this.backButton);
-            this.addChild(this.floor);
             this.addChild(this.player);
+            /*
+            this.gameobjects.forEach(x => {
+                this.addChild(x)
+            });*/
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
         };
