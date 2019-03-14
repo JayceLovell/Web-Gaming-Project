@@ -9,8 +9,8 @@ module objects {
         public halfW:number;
         public halfH:number;
         // Constructor
-        constructor(assetManager: createjs.LoadQueue, imageString:string) {
-            super(assetManager.getResult(imageString));
+        constructor(imageString:string) {
+            super(objects.Game.assetManager.getResult(imageString));
 
             this.name = imageString;
             this.Init();

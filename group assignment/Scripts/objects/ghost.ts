@@ -7,8 +7,8 @@ module objects {
         private ymin:number;
         private ymax:number;
         // Constructor
-        constructor(assetManager: createjs.LoadQueue, imageString:string, x:number = 0, y:number = 0,xmin:number,xmax:number, ymin:number,ymax:number) {
-            super(assetManager,imageString); 
+        constructor(x:number = 0, y:number = 0,xmin:number,xmax:number, ymin:number,ymax:number) {
+            super("player"); 
             this.xmin=xmin;
             this.xmax=xmax;
             this.ymin=ymin;
@@ -16,7 +16,7 @@ module objects {
             this.x=x;
             this.y=y;
         }
-        // Methods
+        public Start(){}
 
         public Update()
         {
@@ -33,6 +33,9 @@ module objects {
             }
 
         }
+        public Reset(){}
+        public Move(){}
+        public CheckBounds(){}
 
 
     }

@@ -26,7 +26,7 @@
         {id: "backButton", src:"./Assets/Images/backButton.png"},
         {id: "backGroundImageMain", src:"./Assets/Images/backgroundimage.png"},
         {id: "backGroundImagePlay", src:"./Assets/Images/LevelLayout.jpg"},
-        {id: "wall", src:"./Assets/Images/platform.png"},
+        {id: "wall", src:"./Assets/Images/wall.png"},
         {id: "player", src:"./Assets/Images/nextButton.png"},
 
 
@@ -39,7 +39,7 @@
         assetManager.installPlugin(createjs.Sound); // Necessary to use sounds in our game. 
         assetManager.loadManifest(assetManifest);   // Loads the manifest defined above
         assetManager.on("complete", Start, this);   // Calls the start function when the assetManager is loaded
-
+        objects.Game.assetManager=assetManager;
         // Start();
     }
 
@@ -62,7 +62,6 @@
 
     function Update():void {
         if(currentState != objects.Game.currentScene) {
-            console.log(objects.Game.currentScene);
             Main();
         }
 
