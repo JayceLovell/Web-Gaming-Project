@@ -35,7 +35,7 @@ module scenes {
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
             this.checkPointIndex = 0;
-            this.tileSize = 48;
+            this.tileSize = 32;
             this.walls = new Array();
             this.floors = new Array();
 
@@ -279,7 +279,6 @@ module scenes {
 
         public Main(): void {
             //this.addChild(this.backGroundImage);
-            this.addChild(this.playLabel);
             this.addChild(this.player);
 
             this.walls.forEach(x => {
@@ -288,7 +287,8 @@ module scenes {
             this.floors.forEach(x => {
                 this.addChild(x)
             });
-
+            this.addChild(this.playLabel);
+            
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
         }
