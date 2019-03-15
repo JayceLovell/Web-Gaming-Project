@@ -34,7 +34,7 @@ module scenes {
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager,"backGroundImagePlay",320, 400);
             this.checkPointIndex=0;
-            this.tileSize=32;
+            this.tileSize=64;
             this.walls=new Array();
     
 
