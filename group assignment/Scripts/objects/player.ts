@@ -47,13 +47,13 @@ module objects {
             }
 
             if(objects.Game.keyboardManager.moveUp){
-                if(this.colliding == true){
+                //if(this.colliding == true){
                     this.y -= 1;
                     if(this.vSpeed >0){
                         this.vSpeed = -15;
     
                     }
-                }
+                //}
  
             }
 

@@ -28,8 +28,9 @@ var scenes;
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
             this.checkPointIndex = 0;
-            this.tileSize = 48;
+            this.tileSize = 32;
             this.walls = new Array();
+            this.floors = new Array();
             // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
             //this.floor = new objects.Wall(250,400);
             this.GenerateLevel(1);
@@ -56,7 +57,7 @@ var scenes;
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""]
+                        ["wall", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "", "", "", "", "wall", "wall", "wall", "", "", ""]
                     ];
                     break;
                 case 2:
@@ -128,6 +129,9 @@ var scenes;
                         case "wall":
                             this.walls.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
                             break;
+                        case "floor":
+                            this.floors.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
+                            break;
                         case "player":
                             this.player = new objects.Player((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
                             break;
@@ -142,16 +146,54 @@ var scenes;
             this.player.Update();
             this.backButton.setX(this.backButton.getX() + 5);
             //this.backButton.setX(this.backButton.getX() + 5);
+            // this.walls.forEach(wall => {
+            //     if (managers.AABBCollisions.Check(this.player, wall)) {
+            //         if (this.player.y >= wall.y) {
+            //             if (this.player.x >= wall.x) {
+            //                 if ((this.player.x - this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
+            //                 }
+            //             } else {
+            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
+            //                 }
+            //             }
+            //         } 
+            //         else {
+            //             if (this.player.x >= wall.x) {
+            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y - (wall.regY + (wall.height / 2));
+            //                 }
+            //             } else {
+            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
+            //                 }
+            //             }
+            //         }
             this.walls.forEach(function (wall) {
                 if (managers.AABBCollisions.Check(_this.player, wall)) {
-                    if (_this.player.y >= wall.y) {
-                        _this.player.y = wall.y + (wall.regY + (wall.height / 2));
-                    }
-                    else {
-                        _this.player.y = wall.y - (wall.regY + (wall.height / 2));
-                    }
-                    //this.player.x=this.player.previousX;
-                    //this.player.y=this.player.previousY;
+                    if (_this.player.x >= wall.x)
+                        _this.player.x = wall.x + (wall.regX + (wall.halfW));
+                    else
+                        _this.player.x = wall.x - (wall.regX + (wall.halfW));
+                    // if(this.player.x >= wall.x){
+                    //     if((this.player.y+ this.player.halfH)  -(wall.y +wall.halfH) <= (wall.x - wall.halfW) - (this.player.x + this.player.halfW)) {
+                    //         if(this.player.y >= wall.y){
+                    //             this.player.x = wall.x + (wall.width/2);
+                    //         }else{
+                    //         }
+                    //     }
+                    // }else if(this.player.x <= wall.x ){
+                    //         this.player.x = wall.x-(wall.width/2);
+                    // }
+                }
+            });
+            this.floors.forEach(function (floor) {
+                if (managers.AABBCollisions.Check(_this.player, floor)) {
+                    if (_this.player.x >= floor.x)
+                        _this.player.y = floor.y - (floor.regY + (floor.halfH));
+                    else
+                        _this.player.y = floor.y + (floor.regY + (floor.halfH));
                 }
             });
             /*
@@ -208,11 +250,14 @@ var scenes;
         PlayScene.prototype.Main = function () {
             var _this = this;
             //this.addChild(this.backGroundImage);
-            this.addChild(this.playLabel);
             this.addChild(this.player);
             this.walls.forEach(function (x) {
                 _this.addChild(x);
             });
+            this.floors.forEach(function (x) {
+                _this.addChild(x);
+            });
+            this.addChild(this.playLabel);
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
         };

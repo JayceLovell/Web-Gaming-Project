@@ -12,6 +12,30 @@ var managers;
             var downPointObj1 = obj1.y + obj1.halfH;
             var upPointObj2 = obj2.y - obj2.halfH;
             var downPointObj2 = obj2.y + obj2.halfH;
+            if (downPointObj1 >= upPointObj2 && downPointObj1 <= upPointObj2) {
+                this.top = true;
+                this.bot = false;
+                this.left = false;
+                this.right = false;
+            }
+            if (upPointObj1 <= downPointObj2 && upPointObj1 >= upPointObj2) {
+                this.top = false;
+                this.bot = true;
+                this.left = false;
+                this.right = false;
+            }
+            if (leftPointObj1 <= rightPointObj2 && leftPointObj1 >= leftPointObj2) {
+                this.top = false;
+                this.bot = false;
+                this.left = false;
+                this.right = true;
+            }
+            if (rightPointObj1 >= leftPointObj2 && rightPointObj1 <= rightPointObj2) {
+                this.top = true;
+                this.bot = false;
+                this.left = false;
+                this.right = false;
+            }
             if (((leftPointObj1 <= rightPointObj2 && leftPointObj1 >= leftPointObj2) || (rightPointObj1 >= leftPointObj2 && rightPointObj1 <= rightPointObj2)) && ((upPointObj1 <= downPointObj2 && upPointObj1 >= upPointObj2) || (downPointObj1 >= upPointObj2 && downPointObj1 <= downPointObj2))) {
                 return true;
             }
