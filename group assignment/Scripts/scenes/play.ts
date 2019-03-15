@@ -99,15 +99,75 @@ module scenes {
             //this.backButton.setX(this.backButton.getX() + 5);
 
             this.walls.forEach(wall => {
+  
+                
                 if(managers.AABBCollisions.Check(this.player, wall)){
+
+
                     if(this.player.y >= wall.y ){
-                        this.player.y = wall.y + (wall.regY +(wall.height/2));
-                    }else{
-                        this.player.y = wall.y - (wall.regY +(wall.height/2));
-    
+                        
+
+                            if(this.player.x >= wall.x){
+                                if((this.player.x- this.player.halfW)  -(wall.x +wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+                                    this.player.y = wall.y + (wall.regY +(wall.height/2));
+                                }
+                                
+                            }else{
+                                if((this.player.x+ this.player.halfW)  -(wall.x +wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+
+                                    this.player.y = wall.y + (wall.regY +(wall.height/2));
+                                }
+                            
+                        
                     }
-                    //this.player.x=this.player.previousX;
-                    //this.player.y=this.player.previousY;
+                        
+                    }else{
+
+                            if(this.player.x >= wall.x){
+                                if((this.player.x+ this.player.halfW)  -(wall.x +wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+
+                                    this.player.y = wall.y - (wall.regY +(wall.height/2));
+
+                                }
+
+                            }else{
+                                if((this.player.x+ this.player.halfW)  -(wall.x +wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+
+                                    this.player.y = wall.y + (wall.regY +(wall.height/2));
+                                }
+                                
+                            }
+                        
+ 
+                    }
+
+
+
+                    // if(this.player.x >= wall.x){
+                    //     if((this.player.y+ this.player.halfH)  -(wall.y +wall.halfH) <= (wall.x - wall.halfW) - (this.player.x + this.player.halfW)) {
+
+                    //         if(this.player.y >= wall.y){
+                    //             this.player.x = wall.x + (wall.width/2);
+                    //         }else{
+
+                    //         }
+                    //     }
+                    
+
+                        
+
+
+                    // }else if(this.player.x <= wall.x ){
+                    //         this.player.x = wall.x-(wall.width/2);
+
+                        
+
+                    // }
+                    
+     
+                    
+     
+                   
                 }
             });   
             /*

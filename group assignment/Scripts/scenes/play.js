@@ -85,13 +85,39 @@ var scenes;
             this.walls.forEach(function (wall) {
                 if (managers.AABBCollisions.Check(_this.player, wall)) {
                     if (_this.player.y >= wall.y) {
-                        _this.player.y = wall.y + (wall.regY + (wall.height / 2));
+                        if (_this.player.x >= wall.x) {
+                            if ((_this.player.x - _this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
+                                _this.player.y = wall.y + (wall.regY + (wall.height / 2));
+                            }
+                        }
+                        else {
+                            if ((_this.player.x + _this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
+                                _this.player.y = wall.y + (wall.regY + (wall.height / 2));
+                            }
+                        }
                     }
                     else {
-                        _this.player.y = wall.y - (wall.regY + (wall.height / 2));
+                        if (_this.player.x >= wall.x) {
+                            if ((_this.player.x + _this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
+                                _this.player.y = wall.y - (wall.regY + (wall.height / 2));
+                            }
+                        }
+                        else {
+                            if ((_this.player.x + _this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
+                                _this.player.y = wall.y + (wall.regY + (wall.height / 2));
+                            }
+                        }
                     }
-                    //this.player.x=this.player.previousX;
-                    //this.player.y=this.player.previousY;
+                    // if(this.player.x >= wall.x){
+                    //     if((this.player.y+ this.player.halfH)  -(wall.y +wall.halfH) <= (wall.x - wall.halfW) - (this.player.x + this.player.halfW)) {
+                    //         if(this.player.y >= wall.y){
+                    //             this.player.x = wall.x + (wall.width/2);
+                    //         }else{
+                    //         }
+                    //     }
+                    // }else if(this.player.x <= wall.x ){
+                    //         this.player.x = wall.x-(wall.width/2);
+                    // }
                 }
             });
             /*

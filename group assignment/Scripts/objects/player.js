@@ -52,12 +52,12 @@ var objects;
                 this.x += this.speed;
             }
             if (objects.Game.keyboardManager.moveUp) {
-                if (this.colliding == true) {
-                    this.y -= 1;
-                    if (this.vSpeed > 0) {
-                        this.vSpeed = -15;
-                    }
+                //if(this.colliding == true){
+                this.y -= 1;
+                if (this.vSpeed > 0) {
+                    this.vSpeed = -15;
                 }
+                //}
             }
             if (objects.Game.keyboardManager.moveDown) {
             }
