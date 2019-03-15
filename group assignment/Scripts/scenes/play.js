@@ -30,6 +30,7 @@ var scenes;
             this.checkPointIndex = 0;
             this.tileSize = 32;
             this.walls = new Array();
+            this.floors = new Array();
             // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
             //this.floor = new objects.Wall(250,400);
             this.GenerateLevel(1);
@@ -56,7 +57,7 @@ var scenes;
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                         ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""]
+                        ["wall", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "", "", "", "", "wall", "wall", "wall", "", "", ""]
                     ];
                     break;
                 default:
@@ -67,6 +68,9 @@ var scenes;
                     switch (this.initMap[i][j]) {
                         case "wall":
                             this.walls.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
+                            break;
+                        case "floor":
+                            this.floors.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
                             break;
                         case "player":
                             this.player = new objects.Player((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
@@ -82,32 +86,36 @@ var scenes;
             this.player.Update();
             this.backButton.setX(this.backButton.getX() + 5);
             //this.backButton.setX(this.backButton.getX() + 5);
+            // this.walls.forEach(wall => {
+            //     if (managers.AABBCollisions.Check(this.player, wall)) {
+            //         if (this.player.y >= wall.y) {
+            //             if (this.player.x >= wall.x) {
+            //                 if ((this.player.x - this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
+            //                 }
+            //             } else {
+            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
+            //                 }
+            //             }
+            //         } 
+            //         else {
+            //             if (this.player.x >= wall.x) {
+            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y - (wall.regY + (wall.height / 2));
+            //                 }
+            //             } else {
+            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
+            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
+            //                 }
+            //             }
+            //         }
             this.walls.forEach(function (wall) {
                 if (managers.AABBCollisions.Check(_this.player, wall)) {
-                    if (_this.player.y >= wall.y) {
-                        if (_this.player.x >= wall.x) {
-                            if ((_this.player.x - _this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
-                                _this.player.y = wall.y + (wall.regY + (wall.height / 2));
-                            }
-                        }
-                        else {
-                            if ((_this.player.x + _this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
-                                _this.player.y = wall.y + (wall.regY + (wall.height / 2));
-                            }
-                        }
-                    }
-                    else {
-                        if (_this.player.x >= wall.x) {
-                            if ((_this.player.x + _this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
-                                _this.player.y = wall.y - (wall.regY + (wall.height / 2));
-                            }
-                        }
-                        else {
-                            if ((_this.player.x + _this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (_this.player.y + _this.player.halfH)) {
-                                _this.player.y = wall.y + (wall.regY + (wall.height / 2));
-                            }
-                        }
-                    }
+                    if (_this.player.x >= wall.x)
+                        _this.player.x = wall.x + (wall.regX + (wall.halfW));
+                    else
+                        _this.player.x = wall.x - (wall.regX + (wall.halfW));
                     // if(this.player.x >= wall.x){
                     //     if((this.player.y+ this.player.halfH)  -(wall.y +wall.halfH) <= (wall.x - wall.halfW) - (this.player.x + this.player.halfW)) {
                     //         if(this.player.y >= wall.y){
@@ -118,6 +126,14 @@ var scenes;
                     // }else if(this.player.x <= wall.x ){
                     //         this.player.x = wall.x-(wall.width/2);
                     // }
+                }
+            });
+            this.floors.forEach(function (floor) {
+                if (managers.AABBCollisions.Check(_this.player, floor)) {
+                    if (_this.player.x >= floor.x)
+                        _this.player.y = floor.y - (floor.regY + (floor.halfH));
+                    else
+                        _this.player.y = floor.y + (floor.regY + (floor.halfH));
                 }
             });
             /*
@@ -177,6 +193,9 @@ var scenes;
             this.addChild(this.playLabel);
             this.addChild(this.player);
             this.walls.forEach(function (x) {
+                _this.addChild(x);
+            });
+            this.floors.forEach(function (x) {
                 _this.addChild(x);
             });
             this.nextButton.on("click", this.nextButtonClick);
