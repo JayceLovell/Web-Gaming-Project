@@ -170,19 +170,22 @@ var scenes;
             //                 }
             //             }
             //         }
+            this.player.colliding = false;
             this.walls.forEach(function (wall) {
                 if (managers.AABBCollisions.Check(_this.player, wall)) {
+                    console.log(_this.player.colliding);
                     if (managers.AABBCollisions.checKSides(_this.player, wall) == 1) {
-                        _this.player.y = wall.y - (wall.regY + (wall.halfH));
+                        _this.player.y = wall.y - wall.halfH - _this.player.halfH + 0.1;
+                        _this.player.colliding = true;
                     }
                     else if (managers.AABBCollisions.checKSides(_this.player, wall) == 2) {
-                        _this.player.y = wall.y + (wall.regY + (wall.halfH));
+                        _this.player.y = wall.y + wall.halfH + _this.player.halfH - 0.1;
                     }
                     else if (managers.AABBCollisions.checKSides(_this.player, wall) == 3) {
-                        _this.player.x = wall.x + (wall.regX + (wall.halfW)) + 0.2;
+                        _this.player.x = wall.x + wall.halfW + _this.player.halfW + 0.1;
                     }
                     else if (managers.AABBCollisions.checKSides(_this.player, wall) == 4) {
-                        _this.player.x = wall.x - (wall.regX + (wall.halfW)) - 0.2;
+                        _this.player.x = wall.x - wall.halfW - _this.player.halfW - 0.1;
                     }
                     // if(this.player.x >= wall.x){
                     //     if((this.player.y+ this.player.halfH)  -(wall.y +wall.halfH) <= (wall.x - wall.halfW) - (this.player.x + this.player.halfW)) {

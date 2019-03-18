@@ -191,23 +191,33 @@ module scenes {
             //                 }
             //             }
             //         }
+            
+            this.player.colliding= false;
             this.walls.forEach(wall => {
 
                 if (managers.AABBCollisions.Check(this.player, wall)) {
+                    
+
+                    console.log(this.player.colliding);
                     if (managers.AABBCollisions.checKSides(this.player, wall) == 1){
-                        this.player.y = wall.y - (wall.regY + (wall.halfH));
+                        this.player.y = wall.y - wall.halfH - this.player.halfH +0.1;
+                        this.player.colliding =true;
                     }
                     else if(managers.AABBCollisions.checKSides(this.player, wall) == 2){
-                        
-                        this.player.y = wall.y + (wall.regY + (wall.halfH));
+
+                        this.player.y = wall.y + wall.halfH + this.player.halfH - 0.1;
                     }
                     else if(managers.AABBCollisions.checKSides(this.player, wall) == 3){
                         
-                        this.player.x = wall.x + (wall.regX + (wall.halfW))+0.2;
+                        this.player.x = wall.x+ wall.halfW+ this.player.halfW+0.1;
+              
+
 
                     }
                     else if(managers.AABBCollisions.checKSides(this.player, wall) == 4){
-                       this.player.x = wall.x - (wall.regX + (wall.halfW))-0.2;
+                        this.player.x = wall.x- wall.halfW- this.player.halfW-0.1;
+
+
 
                     }
 
@@ -224,8 +234,8 @@ module scenes {
                     // }else if(this.player.x <= wall.x ){
                     //         this.player.x = wall.x-(wall.width/2);
                     // }
-
                 }
+
             });
             // this.floors.forEach(floor => {
             //     this.player.colliding = managers.AABBCollisions.Check(this.player,floor);

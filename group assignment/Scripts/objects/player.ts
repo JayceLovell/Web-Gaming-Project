@@ -51,12 +51,12 @@ module objects {
 
             if(objects.Game.keyboardManager.moveUp){
                 //this.y -= 3;
-                // if(this.colliding == true){
+                if(this.colliding == true){
                     
                     if(this.vSpeed >0){
                         this.vSpeed = -5;
     
-                    // /}
+                    }
                 }
  
             }

@@ -55,10 +55,10 @@ var objects;
             }
             if (objects.Game.keyboardManager.moveUp) {
                 //this.y -= 3;
-                // if(this.colliding == true){
-                if (this.vSpeed > 0) {
-                    this.vSpeed = -5;
-                    // /}
+                if (this.colliding == true) {
+                    if (this.vSpeed > 0) {
+                        this.vSpeed = -5;
+                    }
                 }
             }
             if (objects.Game.keyboardManager.moveDown) {
