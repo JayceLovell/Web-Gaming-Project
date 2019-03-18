@@ -68,7 +68,7 @@ module scenes {
                     ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                     ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
                     ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", ""],
-                    ["wall", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "", "", "", "", "wall", "wall", "wall", "", "", ""]
+                    ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""]
                     ];
                     break;
 
@@ -192,11 +192,25 @@ module scenes {
             //             }
             //         }
             this.walls.forEach(wall => {
+
                 if (managers.AABBCollisions.Check(this.player, wall)) {
-                    if (this.player.x >= wall.x)
-                        this.player.x = wall.x + (wall.regX + (wall.halfW));
-                    else
-                        this.player.x = wall.x - (wall.regX + (wall.halfW));
+                    if (managers.AABBCollisions.checKSides(this.player, wall) == 1){
+                        this.player.y = wall.y - (wall.regY + (wall.halfH));
+                    }
+                    else if(managers.AABBCollisions.checKSides(this.player, wall) == 2){
+                        
+                        this.player.y = wall.y + (wall.regY + (wall.halfH));
+                    }
+                    else if(managers.AABBCollisions.checKSides(this.player, wall) == 3){
+                        
+                        this.player.x = wall.x + (wall.regX + (wall.halfW))+0.2;
+
+                    }
+                    else if(managers.AABBCollisions.checKSides(this.player, wall) == 4){
+                       this.player.x = wall.x - (wall.regX + (wall.halfW))-0.2;
+
+                    }
+
 
                     // if(this.player.x >= wall.x){
                     //     if((this.player.y+ this.player.halfH)  -(wall.y +wall.halfH) <= (wall.x - wall.halfW) - (this.player.x + this.player.halfW)) {
@@ -213,16 +227,20 @@ module scenes {
 
                 }
             });
-            this.floors.forEach(floor => {
-                if (managers.AABBCollisions.Check(this.player, floor)) {
-                    if (this.player.x >= floor.x)
-                        this.player.y = floor.y - (floor.regY + (floor.halfH));
-                    else
-                        this.player.y = floor.y + (floor.regY + (floor.halfH));
+            // this.floors.forEach(floor => {
+            //     this.player.colliding = managers.AABBCollisions.Check(this.player,floor);
 
-                }
+            //     if (managers.AABBCollisions.Check(this.player, floor)) {
+            //         if(managers.AABBCollisions.checKSides(this.player, floor) == 3){
+            //             this.player.y = floor.y - (floor.regY + (floor.halfH));
+            //         }
+            //         else if(managers.AABBCollisions.checKSides(this.player, floor) == 4){
+            //             this.player.y = floor.y + (floor.regY + (floor.halfH));
+            //         }
 
-            });
+            //     }
+
+            // });
             /*
             this.ghost.forEach(ghost => {
                 ghost.Update();

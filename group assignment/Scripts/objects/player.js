@@ -29,17 +29,19 @@ var objects;
         Player.prototype.Start = function () {
             this.colliding = false;
             this.speed = 5;
-            this.vSpeed = 1;
+            this.vSpeed = 0.5;
             this.previousX = this.x;
             this.previousY = this.y;
         };
         Player.prototype.Update = function () {
-            this.previousX = this.x;
-            this.previousY = this.y;
+            if (this.colliding == false) {
+                this.previousX = this.x;
+                this.previousY = this.y;
+            }
             this.Move();
             this.CheckBounds();
-            if (this.vSpeed < 15) {
-                this.vSpeed += 0.7;
+            if (this.vSpeed < 6) {
+                this.vSpeed += 0.1;
             }
             this.y += this.vSpeed;
         };
@@ -52,14 +54,15 @@ var objects;
                 this.x += this.speed;
             }
             if (objects.Game.keyboardManager.moveUp) {
-                //if(this.colliding == true){
-                this.y -= 1;
+                //this.y -= 3;
+                // if(this.colliding == true){
                 if (this.vSpeed > 0) {
-                    this.vSpeed = -15;
+                    this.vSpeed = -5;
+                    // /}
                 }
-                //}
             }
             if (objects.Game.keyboardManager.moveDown) {
+                //this.y += 3;
             }
         };
         Player.prototype.CheckBounds = function () {
