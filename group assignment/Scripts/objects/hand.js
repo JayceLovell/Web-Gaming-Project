@@ -15,10 +15,13 @@ var objects;
 (function (objects) {
     var hand = /** @class */ (function (_super) {
         __extends(hand, _super);
-        function hand(x, y, xmin, xmax, ymin, ymax) {
+        function hand(x, y) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
-            return _super.call(this, "player") || this;
+            var _this = _super.call(this, "hand") || this;
+            _this.x = x;
+            _this.y = y;
+            return _this;
         }
         hand.prototype.Start = function () { };
         hand.prototype.Update = function () { };

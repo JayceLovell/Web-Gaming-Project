@@ -27,218 +27,167 @@ var scenes;
             this.nextButton = new objects.Button(this.assetManager, "nextButton", 500, 340);
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
-            this.checkPointIndex = 0;
             this.tileSize = 32;
+            this.objects = new Array();
             this.walls = new Array();
-            this.floors = new Array();
-            // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
-            //this.floor = new objects.Wall(250,400);
-            this.GenerateLevel(1);
+            this.checkPoints = new Array();
+            this.hands = new Array();
+            this.ghosts = new Array();
+            this.level = 1;
+            this.checkPointLevel = this.level;
+            this.GenerateLevel();
             this.Main();
         };
-        PlayScene.prototype.GenerateLevel = function (level) {
-            //map is 40 by 34. cut map into 4 pieces of 20 by 17. 
-            switch (level) {
-                //14 by
-                case 1:
-                    this.initMap = [["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "hands", "", "", "", "", "", "hands", "", "", "", ""],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "hands", "", "", "hands", "", "", "", "", "", "hands", "hands"],
-                        ["wall", "wall", "", "", "player", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "", "", "", "", "wall", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "wall", "hands", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "", "", "", "", "", "", "", "", "green", "", "", "", "wall", "wall", "wall", "wall", "wall", ""],
-                        ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
-                        ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", ""],
-                        ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", ""],
-                        ["wall", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "floor", "", "", "", "", "wall", "wall", "wall", "", "", ""]
-                    ];
-                    break;
-                case 2:
-                    this.initMap = [["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""],
-                        ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "checkpoint"],
-                        ["wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "wall"],
-                        ["wall", "wall", "hands", "hands", "hands", "wall", "wall", "wall", "wall", "wall", "", "", "", "light green", "wall", "wall", "wall", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "hands", "hands", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "green", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "hands", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "hands", "hands", "", "", "hands", "hands", "hands", "hands"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"]
-                    ];
-                    break;
-                case 3:
-                    this.initMap = [["wall", "wall", "wall", "wall", "wall", "", "end", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["", "", "", "hands", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "light green", "wall"],
-                        ["", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "", "", "", "", "", "", "", "", "light green", "wall"],
-                        ["", "", "hands", "", "", "", "", "", "", "", "", "", "", "", "green", "", "", "", "light green", "wall"],
-                        ["", "", "", "", "", "", "", "hands", "hands", "hands", "", "", "", "check point", "wall", "", "", "", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall"],
-                        ["wall", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall"],
-                        ["", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "deep blue", "deep blue", "wall", "wall", "wall"],
-                        ["", "", "", "ghost", "", "", "", "", "", "", "", "wall", "", "", "", "", "", "wall", "wall", "wall"],
-                        ["", "", "", "", "", "", "", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
-                        ["", "", "", "", "wall", "hands", "hands", "wall", "", "", "wall", "", "hands", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "hands", "hands", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall"]
-                    ];
-                    break;
-                case 4:
-                    this.initMap = [["wall", "", "", "hands", "", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall"],
-                        ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "gray", "wall", "wall", "wall"],
-                        ["", "", "", "", "", "", "", "hands", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "hands", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "purple", "purple", "purple", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "green", "green", "green", "wall", "wall", "wall"],
-                        ["green", "wall", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "green", "green", "check point", "wall", "wall", "wall"],
-                        ["green", "", "", "", "wall", "wall", "", "", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["", "", "", "", "", "", "", "", "", "", "", "", "", "purple", "", "", "", "wall", "wall", "wall"],
-                        ["", "", "hands", "hands", "", "", "", "", "hands", "hands", "", "", "", "purple", "", "", "checkpoint", "wall", "wall", "wall"],
-                        ["hands", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", ""],
-                        ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", ""],
-                    ];
-                    break;
-                default:
-                    break;
-            }
-            for (var i = 0; i < 17; i++) {
-                for (var j = 0; j < 20; j++) {
+        PlayScene.prototype.GenerateLevel = function () {
+            this.initMap = [["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "end", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "hands", "", "", "", "", "", "hands", "", "", "", "", "", "", "", "hands", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "hands", "", "", "hands", "", "", "", "", "", "hands", "hands", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "player", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "light green", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "", "", "", "", "", "", "", "", "light green", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "", "", "", "", "wall", "wall", "", "", "hands", "", "", "", "", "", "", "", "", "", "", "", "green", "", "", "", "light green", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "wall", "", "", "", "", "", "", "", "hands", "hands", "hands", "", "", "", "checkpoint", "wall", "", "", "", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall", "wall", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "deep blue", "deep blue", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "hands", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "ghost", "", "", "", "", "", "", "", "wall", "", "", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "", "", "", "green", "", "", "", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "wall", "hands", "hands", "wall", "", "", "wall", "", "hands", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "hands", "hands", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "", "", "hands", "", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "checkpoint", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "gray", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "wall", "", "", "", "", "", "", "", "hands", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "hands", "hands", "hands", "wall", "wall", "wall", "wall", "wall", "", "", "", "light green", "wall", "wall", "wall", "", "", "", "wall", "hands", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "purple", "purple", "purple", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "wall", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "hands", "hands", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "green", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "green", "green", "green", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "green", "wall", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "green", "green", "checkpoint", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "hands", "", "", "", "green", "", "", "", "wall", "wall", "", "", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "purple", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "", "", "", "", "", "", "hands", "hands", "", "", "", "", "hands", "hands", "", "", "", "purple", "", "", "checkpoint", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "hands", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "hands", "hands", "", "", "hands", "hands", "hands", "hands", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", ""],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", ""],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", ""]];
+            for (var i = 0; i < 34; i++) {
+                for (var j = 0; j < 40; j++) {
                     switch (this.initMap[i][j]) {
-                        case "wall":
-                            this.walls.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
-                            break;
-                        case "floor":
-                            this.floors.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
-                            break;
                         case "player":
                             this.player = new objects.Player((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.objects.push(this.player);
+                            break;
+                        case "wall":
+                            var wall = new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.walls.push(wall);
+                            this.objects.push(wall);
+                            break;
+                        case "checkpoint":
+                            var cp = new objects.checkPoint((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.checkPoints.push(cp);
+                            this.objects.push(cp);
+                            break;
+                        case "hands":
+                            var hand = new objects.hand((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.hands.push(hand);
+                            this.objects.push(hand);
+                            break;
+                        case "ghost":
                             break;
                         default:
                             break;
                     }
                 }
             }
+            this.checkPointX = this.player.x;
+            this.checkPointY = this.player.y;
         };
         PlayScene.prototype.Update = function () {
             var _this = this;
             this.player.Update();
             this.backButton.setX(this.backButton.getX() + 5);
-            //this.backButton.setX(this.backButton.getX() + 5);
-            // this.walls.forEach(wall => {
-            //     if (managers.AABBCollisions.Check(this.player, wall)) {
-            //         if (this.player.y >= wall.y) {
-            //             if (this.player.x >= wall.x) {
-            //                 if ((this.player.x - this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
-            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
-            //                 }
-            //             } else {
-            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) <= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
-            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
-            //                 }
-            //             }
-            //         } 
-            //         else {
-            //             if (this.player.x >= wall.x) {
-            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
-            //                     this.player.y = wall.y - (wall.regY + (wall.height / 2));
-            //                 }
-            //             } else {
-            //                 if ((this.player.x + this.player.halfW) - (wall.x + wall.halfW) >= (wall.y - wall.halfH) - (this.player.y + this.player.halfH)) {
-            //                     this.player.y = wall.y + (wall.regY + (wall.height / 2));
-            //                 }
-            //             }
-            //         }
+            this.player.colliding = false;
             this.walls.forEach(function (wall) {
                 if (managers.AABBCollisions.Check(_this.player, wall)) {
-                    if (_this.player.x >= wall.x)
-                        _this.player.x = wall.x + (wall.regX + (wall.halfW));
-                    else
-                        _this.player.x = wall.x - (wall.regX + (wall.halfW));
-                    // if(this.player.x >= wall.x){
-                    //     if((this.player.y+ this.player.halfH)  -(wall.y +wall.halfH) <= (wall.x - wall.halfW) - (this.player.x + this.player.halfW)) {
-                    //         if(this.player.y >= wall.y){
-                    //             this.player.x = wall.x + (wall.width/2);
-                    //         }else{
-                    //         }
-                    //     }
-                    // }else if(this.player.x <= wall.x ){
-                    //         this.player.x = wall.x-(wall.width/2);
-                    // }
+                    if (managers.AABBCollisions.checKSides(_this.player, wall) == 1) {
+                        _this.player.y = wall.y - wall.halfH - _this.player.halfH + 0.1;
+                        _this.player.colliding = true;
+                    }
+                    else if (managers.AABBCollisions.checKSides(_this.player, wall) == 2) {
+                        _this.player.y = wall.y + wall.halfH + _this.player.halfH - 0.1;
+                    }
+                    else if (managers.AABBCollisions.checKSides(_this.player, wall) == 3) {
+                        _this.player.x = wall.x + wall.halfW + _this.player.halfW + 0.1;
+                    }
+                    else if (managers.AABBCollisions.checKSides(_this.player, wall) == 4) {
+                        _this.player.x = wall.x - wall.halfW - _this.player.halfW - 0.1;
+                    }
                 }
             });
-            this.floors.forEach(function (floor) {
-                if (managers.AABBCollisions.Check(_this.player, floor)) {
-                    if (_this.player.x >= floor.x)
-                        _this.player.y = floor.y - (floor.regY + (floor.halfH));
-                    else
-                        _this.player.y = floor.y + (floor.regY + (floor.halfH));
+            this.checkPoints.forEach(function (checkPoint) {
+                if (managers.AABBCollisions.Check(_this.player, checkPoint)) {
+                    _this.checkPointX = checkPoint.x;
+                    _this.checkPointY = checkPoint.y;
+                    _this.checkPointLevel = _this.level;
+                }
+            });
+            this.hands.forEach(function (hand) {
+                if (managers.AABBCollisions.Check(_this.player, hand)) {
+                    _this.player.x = _this.checkPointX;
+                    _this.player.y = _this.checkPointY;
+                    _this.moveScreen(_this.checkPointLevel);
                 }
             });
             /*
-            this.ghost.forEach(ghost => {
+            this.ghosts.forEach(ghost => {
                 ghost.Update();
-                if(managers.Collision.Check(this.player, ghost)){
-                    this.player.x=checkPoint[checkPointIndex].x;
-                    this.player.y=checkPoint[checkPointIndex].y;
+                if(managers.AABBCollisions.Check(this.player, ghost)){
+                    this.player.x=this.checkPointX;
+                    this.player.y=this.checkPointY;
                 }
             });
-            this.hands.forEach(hand => {
-                if(managers.Collision.Check(this.player, hand)){
-                    this.player.x=checkPoint[checkPointIndex].x;
-                    this.player.y=checkPoint[checkPointIndex].y;
-                }
-            });
-            this.checkPoint.forEach(checkPoint => {
-                if(managers.Collision.Check(this.player, checkPoint)){
-                    checkPointIndex=checkPoint.index;
-                }
-            });
-
-            if(managers.Collision.Check(this.win, checkPoint)){
+            if(managers.AABBCollisions.Check(this.win, checkPoint)){
                     objects.Game.currentScene = config.Scene.OVER;
                 }
             
-        }
-        */
-            /*
-                        this.player.colliding = managers.AABBCollisions.Check(this.player,this.floor);
-            
-                        if(this.player.colliding) {
-                            if(this.player.y >= this.floor.y ){
-                                this.player.y = this.floor.y + (this.floor.regY +(this.floor.height/2));
-                            }else{
-                                this.player.y = this.floor.y - (this.floor.regY +(this.floor.height/2));
-            
-                            }
-                            
-                            
-                            //this.backgroundMusic.stop();
-                            //objects.Game.currentScene = config.Scene.OVER;
-                        }
-            
-            */
+        
+        */ switch (this.level) {
+                case 1:
+                    if (this.player.y > this.tileSize * 17) {
+                        this.moveScreen(2);
+                    }
+                    else if (this.player.x > this.tileSize * 20) {
+                        this.moveScreen(3);
+                    }
+                    break;
+                case 2:
+                    if (this.player.y < 0) {
+                        this.moveScreen(1);
+                    }
+                    else if (this.player.x > this.tileSize * 20) {
+                        this.moveScreen(4);
+                    }
+                    break;
+                case 3:
+                    if (this.player.y > this.tileSize * 17) {
+                        this.moveScreen(4);
+                    }
+                    else if (this.player.x < 0) {
+                        this.moveScreen(1);
+                    }
+                    break;
+                case 4:
+                    if (this.player.y < 0) {
+                        this.moveScreen(3);
+                    }
+                    else if (this.player.x < 0) {
+                        this.moveScreen(2);
+                    }
+                    break;
+            }
         };
         // Button Even Handlers
         PlayScene.prototype.nextButtonClick = function () {
@@ -250,16 +199,98 @@ var scenes;
         PlayScene.prototype.Main = function () {
             var _this = this;
             //this.addChild(this.backGroundImage);
-            this.addChild(this.player);
-            this.walls.forEach(function (x) {
-                _this.addChild(x);
-            });
-            this.floors.forEach(function (x) {
+            this.objects.forEach(function (x) {
                 _this.addChild(x);
             });
             this.addChild(this.playLabel);
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
+        };
+        PlayScene.prototype.moveScreen = function (targetLevel) {
+            var _this = this;
+            switch (this.level) {
+                case 1:
+                    switch (targetLevel) {
+                        case 2:
+                            this.objects.forEach(function (o) {
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                        case 3:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                            });
+                            break;
+                        case 4:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (targetLevel) {
+                        case 1:
+                            this.objects.forEach(function (o) {
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                        case 3:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                        case 4:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                            });
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (targetLevel) {
+                        case 1:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                            });
+                            break;
+                        case 2:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                        case 4:
+                            this.objects.forEach(function (o) {
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (targetLevel) {
+                        case 1:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                        case 2:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                            });
+                            break;
+                        case 3:
+                            this.objects.forEach(function (o) {
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                    }
+                    break;
+            }
+            this.level = targetLevel;
         };
         return PlayScene;
     }(objects.Scene));
