@@ -14,6 +14,7 @@ module scenes {
         private checkPoints: Array<objects.checkPoint>;
         private checkPointX: number;
         private checkPointY: number;
+        private checkPointLevel:number;
         private hands: Array<objects.hand>;
         private ghosts: Array<objects.ghost>;
         private win: objects.GameObject;
@@ -37,6 +38,7 @@ module scenes {
             this.hands = new Array();
             this.ghosts=new Array();
             this.level=1;
+            this.checkPointLevel=this.level;
             this.GenerateLevel();
             this.Main();
 
@@ -95,7 +97,9 @@ module scenes {
                             this.objects.push(cp);
                             break;
                         case "hands":
-                           
+                            var hand=new objects.hand((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.hands.push(hand);
+                            this.objects.push(hand);
                             break;
                         case "ghost":
                       
@@ -106,10 +110,8 @@ module scenes {
                     }
                 }
             }
-
             this.checkPointX=this.player.x;
             this.checkPointY=this.player.y;
-
         }
 
         public Update(): void {
@@ -139,80 +141,57 @@ module scenes {
                 if(managers.AABBCollisions.Check(this.player, checkPoint)){
                     this.checkPointX=checkPoint.x;
                     this.checkPointY=checkPoint.y;
+                    this.checkPointLevel=this.level;
                 }
             });
-            /*
-            this.ghost.forEach(ghost => {
-                ghost.Update();
-                if(managers.AABBCollisions.Check(this.player, ghost)){
-                    this.player.x=checkPoint[checkPointIndex].x;
-                    this.player.y=checkPoint[checkPointIndex].y;
-                }
-            });   
+            
             this.hands.forEach(hand => {
                 if(managers.AABBCollisions.Check(this.player, hand)){
-                    this.player.x=checkPoint[checkPointIndex].x;
-                    this.player.y=checkPoint[checkPointIndex].y;
+                    this.player.x=this.checkPointX;
+                    this.player.y=this.checkPointY;
+                    this.moveScreen(this.checkPointLevel);
+                }
+            }); 
+            /*
+            this.ghosts.forEach(ghost => {
+                ghost.Update();
+                if(managers.AABBCollisions.Check(this.player, ghost)){
+                    this.player.x=this.checkPointX;
+                    this.player.y=this.checkPointY;
                 }
             });   
-    
             if(managers.AABBCollisions.Check(this.win, checkPoint)){
                     objects.Game.currentScene = config.Scene.OVER;
                 }  
             
-        }
+        
         */switch(this.level){
             case 1:
                 if(this.player.y>this.tileSize*17){
-                    this.objects.forEach(o => {
-                        o.y-=this.tileSize*17;
-                    });
-                    this.level=2;
+                    this.moveScreen(2);
                 }else if(this.player.x>this.tileSize*20){
-                    this.objects.forEach(o => {
-                        o.x-=this.tileSize*20;
-                    });
-                    this.level=3;
+                    this.moveScreen(3);
                 }
             break;
             case 2:
                 if(this.player.y<0){
-                    this.objects.forEach(o => {
-                        o.y+=this.tileSize*17;
-                    });
-                    this.level=1;
+                    this.moveScreen(1);
                 }else if(this.player.x>this.tileSize*20){
-                    this.objects.forEach(o => {
-                        o.x-=this.tileSize*20;
-                    });
-                    this.level=4;
+                    this.moveScreen(4);
                 }
             break;
             case 3:
                 if(this.player.y>this.tileSize*17){
-                    this.objects.forEach(o => {
-                        o.y-=this.tileSize*17;
-                    });
-                    
-                    this.level=4;
+                    this.moveScreen(4);
                 }else if(this.player.x<0){
-                    this.objects.forEach(o => {
-                        o.x+=this.tileSize*20;
-                    });
-                    this.level=1;
+                    this.moveScreen(1);
                 }
             break;
             case 4: 
                 if(this.player.y<0){
-                    this.objects.forEach(o => {
-                        o.y+=this.tileSize*17;
-                    });
-                    this.level=3;
+                    this.moveScreen(3);
                 }else if(this.player.x<0){
-                    this.objects.forEach(o => {
-                        o.x+=this.tileSize*20;
-                    });
-                    this.level=2;
+                    this.moveScreen(2);
                 }
             break;
         }
@@ -236,6 +215,90 @@ module scenes {
             
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
+        }
+        public moveScreen(targetLevel:number):void {
+            switch(this.level){
+                case 1:
+                    switch(targetLevel){
+                        case 2:
+                            this.objects.forEach(o => {
+                                o.y-=this.tileSize*17;
+                            });
+                        break;
+                        case 3:
+                            this.objects.forEach(o => {
+                                o.x-=this.tileSize*20;
+                            });
+                        break;
+                        case 4:
+                        this.objects.forEach(o => {
+                            o.x-=this.tileSize*20;
+                            o.y-=this.tileSize*17;
+                        });
+                        break;
+                    }
+                break;
+                case 2:
+                    switch(targetLevel){
+                        case 1:
+                            this.objects.forEach(o => {
+                                o.y+=this.tileSize*17;
+                            });
+                        break;
+                        case 3:
+                            this.objects.forEach(o => {
+                                o.x-=this.tileSize*20;
+                                o.y+=this.tileSize*17;
+                            });
+                        break;
+                        case 4:
+                        this.objects.forEach(o => {
+                            o.x-=this.tileSize*20;
+                        });
+                        break;
+                    }
+                break;
+                case 3:
+                    switch(targetLevel){
+                        case 1:
+                            this.objects.forEach(o => {
+                                o.x+=this.tileSize*20;
+                            });
+                        break;
+                        case 2:
+                            this.objects.forEach(o => {
+                                o.x+=this.tileSize*20;
+                                o.y-=this.tileSize*17;
+                            });
+                        break;
+                        case 4:
+                        this.objects.forEach(o => {
+                            o.y-=this.tileSize*17;
+                        });
+                        break;
+                    }
+                break;
+                case 4: 
+                    switch(targetLevel){
+                        case 1:
+                            this.objects.forEach(o => {
+                                o.x+=this.tileSize*20;
+                                o.y+=this.tileSize*17;
+                            });
+                        break;
+                        case 2:
+                            this.objects.forEach(o => {
+                                o.x+=this.tileSize*20;
+                            });
+                        break;
+                        case 3:
+                        this.objects.forEach(o => {
+                            o.y+=this.tileSize*17;
+                        });
+                        break;
+                    }
+                break;}
+            this.level=targetLevel;
         }
     }
 }

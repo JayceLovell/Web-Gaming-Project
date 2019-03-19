@@ -34,6 +34,7 @@ var scenes;
             this.hands = new Array();
             this.ghosts = new Array();
             this.level = 1;
+            this.checkPointLevel = this.level;
             this.GenerateLevel();
             this.Main();
         };
@@ -90,6 +91,9 @@ var scenes;
                             this.objects.push(cp);
                             break;
                         case "hands":
+                            var hand = new objects.hand((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.hands.push(hand);
+                            this.objects.push(hand);
                             break;
                         case "ghost":
                             break;
@@ -127,83 +131,60 @@ var scenes;
                 if (managers.AABBCollisions.Check(_this.player, checkPoint)) {
                     _this.checkPointX = checkPoint.x;
                     _this.checkPointY = checkPoint.y;
+                    _this.checkPointLevel = _this.level;
+                }
+            });
+            this.hands.forEach(function (hand) {
+                if (managers.AABBCollisions.Check(_this.player, hand)) {
+                    _this.player.x = _this.checkPointX;
+                    _this.player.y = _this.checkPointY;
+                    _this.moveScreen(_this.checkPointLevel);
                 }
             });
             /*
-            this.ghost.forEach(ghost => {
+            this.ghosts.forEach(ghost => {
                 ghost.Update();
                 if(managers.AABBCollisions.Check(this.player, ghost)){
-                    this.player.x=checkPoint[checkPointIndex].x;
-                    this.player.y=checkPoint[checkPointIndex].y;
+                    this.player.x=this.checkPointX;
+                    this.player.y=this.checkPointY;
                 }
             });
-            this.hands.forEach(hand => {
-                if(managers.AABBCollisions.Check(this.player, hand)){
-                    this.player.x=checkPoint[checkPointIndex].x;
-                    this.player.y=checkPoint[checkPointIndex].y;
-                }
-            });
-    
             if(managers.AABBCollisions.Check(this.win, checkPoint)){
                     objects.Game.currentScene = config.Scene.OVER;
                 }
             
-        }
+        
         */ switch (this.level) {
                 case 1:
                     if (this.player.y > this.tileSize * 17) {
-                        this.objects.forEach(function (o) {
-                            o.y -= _this.tileSize * 17;
-                        });
-                        this.level = 2;
+                        this.moveScreen(2);
                     }
                     else if (this.player.x > this.tileSize * 20) {
-                        this.objects.forEach(function (o) {
-                            o.x -= _this.tileSize * 20;
-                        });
-                        this.level = 3;
+                        this.moveScreen(3);
                     }
                     break;
                 case 2:
                     if (this.player.y < 0) {
-                        this.objects.forEach(function (o) {
-                            o.y += _this.tileSize * 17;
-                        });
-                        this.level = 1;
+                        this.moveScreen(1);
                     }
                     else if (this.player.x > this.tileSize * 20) {
-                        this.objects.forEach(function (o) {
-                            o.x -= _this.tileSize * 20;
-                        });
-                        this.level = 4;
+                        this.moveScreen(4);
                     }
                     break;
                 case 3:
                     if (this.player.y > this.tileSize * 17) {
-                        this.objects.forEach(function (o) {
-                            o.y -= _this.tileSize * 17;
-                        });
-                        this.level = 4;
+                        this.moveScreen(4);
                     }
                     else if (this.player.x < 0) {
-                        this.objects.forEach(function (o) {
-                            o.x += _this.tileSize * 20;
-                        });
-                        this.level = 1;
+                        this.moveScreen(1);
                     }
                     break;
                 case 4:
                     if (this.player.y < 0) {
-                        this.objects.forEach(function (o) {
-                            o.y += _this.tileSize * 17;
-                        });
-                        this.level = 3;
+                        this.moveScreen(3);
                     }
                     else if (this.player.x < 0) {
-                        this.objects.forEach(function (o) {
-                            o.x += _this.tileSize * 20;
-                        });
-                        this.level = 2;
+                        this.moveScreen(2);
                     }
                     break;
             }
@@ -224,6 +205,92 @@ var scenes;
             this.addChild(this.playLabel);
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
+        };
+        PlayScene.prototype.moveScreen = function (targetLevel) {
+            var _this = this;
+            switch (this.level) {
+                case 1:
+                    switch (targetLevel) {
+                        case 2:
+                            this.objects.forEach(function (o) {
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                        case 3:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                            });
+                            break;
+                        case 4:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                    }
+                    break;
+                case 2:
+                    switch (targetLevel) {
+                        case 1:
+                            this.objects.forEach(function (o) {
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                        case 3:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                        case 4:
+                            this.objects.forEach(function (o) {
+                                o.x -= _this.tileSize * 20;
+                            });
+                            break;
+                    }
+                    break;
+                case 3:
+                    switch (targetLevel) {
+                        case 1:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                            });
+                            break;
+                        case 2:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                        case 4:
+                            this.objects.forEach(function (o) {
+                                o.y -= _this.tileSize * 17;
+                            });
+                            break;
+                    }
+                    break;
+                case 4:
+                    switch (targetLevel) {
+                        case 1:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                        case 2:
+                            this.objects.forEach(function (o) {
+                                o.x += _this.tileSize * 20;
+                            });
+                            break;
+                        case 3:
+                            this.objects.forEach(function (o) {
+                                o.y += _this.tileSize * 17;
+                            });
+                            break;
+                    }
+                    break;
+            }
+            this.level = targetLevel;
         };
         return PlayScene;
     }(objects.Scene));

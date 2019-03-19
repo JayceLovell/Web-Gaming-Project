@@ -28,7 +28,7 @@
         {id: "backGroundImagePlay", src:"./Assets/Images/LevelLayout.jpg"},
         {id: "wall", src:"./Assets/Images/wall.png"},
         {id: "player", src:"./Assets/Images/nextButton.png"},
-
+        {id: "hand", src:"./Assets/Images/backButton.png"},
 
     ];
 
