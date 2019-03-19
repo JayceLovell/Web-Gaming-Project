@@ -20,21 +20,16 @@ var managers;
             var aMagY = obj1.y - obj2.y;
             var bMagY = obj2.y - (obj2.y - 1);
             var dot = (aMagX * bMagX) + (aMagY * bMagY);
-            console.log(dot);
             if (dot <= -25) {
-                console.log("up");
                 this.wSide = 1;
             }
             else if (dot >= 25) {
-                console.log("down");
                 this.wSide = 2;
             }
             else if (dot <= 29 && dot >= -29 && obj1.x < obj2.x) {
-                console.log("left");
                 this.wSide = 4;
             }
             else if (dot <= 29 && dot >= -29 && obj1.x > obj2.x) {
-                console.log("right");
                 this.wSide = 3;
             }
             if (downPointObj1 >= upPointObj2 && downPointObj1 <= downPointObj2) {

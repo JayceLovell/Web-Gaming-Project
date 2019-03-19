@@ -27,12 +27,13 @@ var scenes;
             this.nextButton = new objects.Button(this.assetManager, "nextButton", 500, 340);
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
-            this.checkPointIndex = 0;
             this.tileSize = 32;
+            this.objects = new Array();
             this.walls = new Array();
+            this.checkPoints = new Array();
+            this.hands = new Array();
+            this.ghosts = new Array();
             this.level = 1;
-            // add in the player, walls. ghost, hands, checkpoint and win gameobjects into the scene
-            //this.floor = new objects.Wall(250,400);
             this.GenerateLevel();
             this.Main();
         };
@@ -44,7 +45,7 @@ var scenes;
                 ["wall", "wall", "", "", "player", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "light green", "wall"],
                 ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "", "", "", "", "", "", "", "", "light green", "wall"],
                 ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "wall", "wall", "", "", "", "", "wall", "wall", "", "", "hands", "", "", "", "", "", "", "", "", "", "", "", "green", "", "", "", "light green", "wall"],
-                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "wall", "", "", "", "", "", "", "", "hands", "hands", "hands", "", "", "", "check point", "wall", "", "", "", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "wall", "", "", "", "", "", "", "", "hands", "hands", "hands", "", "", "", "checkpoint", "wall", "", "", "", "wall", "wall"],
                 ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall"],
                 ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "hands", "", "wall", "wall", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall"],
                 ["wall", "wall", "", "", "", "", "", "wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "deep blue", "deep blue", "wall", "wall", "wall"],
@@ -61,7 +62,7 @@ var scenes;
                 ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "wall", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
                 ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "hands", "hands", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "wall", "wall"],
                 ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "green", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "green", "green", "green", "wall", "wall", "wall"],
-                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "green", "wall", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "green", "green", "check point", "wall", "wall", "wall"],
+                ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "green", "wall", "light green", "light green", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "green", "green", "checkpoint", "wall", "wall", "wall"],
                 ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "hands", "", "", "", "green", "", "", "", "wall", "wall", "", "", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
                 ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "purple", "", "", "", "wall", "wall", "wall"],
                 ["wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "", "", "", "", "", "", "hands", "hands", "", "", "", "", "hands", "hands", "", "", "", "purple", "", "", "checkpoint", "wall", "wall", "wall"],
@@ -74,17 +75,31 @@ var scenes;
             for (var i = 0; i < 34; i++) {
                 for (var j = 0; j < 40; j++) {
                     switch (this.initMap[i][j]) {
-                        case "wall":
-                            this.walls.push(new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize));
-                            break;
                         case "player":
                             this.player = new objects.Player((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.objects.push(this.player);
+                            break;
+                        case "wall":
+                            var wall = new objects.Wall((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.walls.push(wall);
+                            this.objects.push(wall);
+                            break;
+                        case "checkpoint":
+                            var cp = new objects.checkPoint((j + 0.5) * this.tileSize, (i + 0.5) * this.tileSize);
+                            this.checkPoints.push(cp);
+                            this.objects.push(cp);
+                            break;
+                        case "hands":
+                            break;
+                        case "ghost":
                             break;
                         default:
                             break;
                     }
                 }
             }
+            this.checkPointX = this.player.x;
+            this.checkPointY = this.player.y;
         };
         PlayScene.prototype.Update = function () {
             var _this = this;
@@ -93,7 +108,6 @@ var scenes;
             this.player.colliding = false;
             this.walls.forEach(function (wall) {
                 if (managers.AABBCollisions.Check(_this.player, wall)) {
-                    console.log(_this.player.colliding);
                     if (managers.AABBCollisions.checKSides(_this.player, wall) == 1) {
                         _this.player.y = wall.y - wall.halfH - _this.player.halfH + 0.1;
                         _this.player.colliding = true;
@@ -107,6 +121,12 @@ var scenes;
                     else if (managers.AABBCollisions.checKSides(_this.player, wall) == 4) {
                         _this.player.x = wall.x - wall.halfW - _this.player.halfW - 0.1;
                     }
+                }
+            });
+            this.checkPoints.forEach(function (checkPoint) {
+                if (managers.AABBCollisions.Check(_this.player, checkPoint)) {
+                    _this.checkPointX = checkPoint.x;
+                    _this.checkPointY = checkPoint.y;
                 }
             });
             /*
@@ -123,12 +143,7 @@ var scenes;
                     this.player.y=checkPoint[checkPointIndex].y;
                 }
             });
-            this.checkPoint.forEach(checkPoint => {
-                if(managers.AABBCollisions.Check(this.player, checkPoint)){
-                    checkPointIndex=checkPoint.index;
-                }
-            });
-
+    
             if(managers.AABBCollisions.Check(this.win, checkPoint)){
                     objects.Game.currentScene = config.Scene.OVER;
                 }
@@ -137,64 +152,56 @@ var scenes;
         */ switch (this.level) {
                 case 1:
                     if (this.player.y > this.tileSize * 17) {
-                        this.player.y -= this.tileSize * 17;
-                        this.walls.forEach(function (w) {
-                            w.y -= _this.tileSize * 17;
+                        this.objects.forEach(function (o) {
+                            o.y -= _this.tileSize * 17;
                         });
                         this.level = 2;
                     }
                     else if (this.player.x > this.tileSize * 20) {
-                        this.player.x -= this.tileSize * 20;
-                        this.walls.forEach(function (w) {
-                            w.x -= _this.tileSize * 20;
+                        this.objects.forEach(function (o) {
+                            o.x -= _this.tileSize * 20;
                         });
                         this.level = 3;
                     }
                     break;
                 case 2:
                     if (this.player.y < 0) {
-                        this.player.y += this.tileSize * 17;
-                        this.walls.forEach(function (w) {
-                            w.y += _this.tileSize * 17;
+                        this.objects.forEach(function (o) {
+                            o.y += _this.tileSize * 17;
                         });
                         this.level = 1;
                     }
                     else if (this.player.x > this.tileSize * 20) {
-                        this.player.x -= this.tileSize * 20;
-                        this.walls.forEach(function (w) {
-                            w.x -= _this.tileSize * 20;
+                        this.objects.forEach(function (o) {
+                            o.x -= _this.tileSize * 20;
                         });
                         this.level = 4;
                     }
                     break;
                 case 3:
                     if (this.player.y > this.tileSize * 17) {
-                        this.player.y -= this.tileSize * 17;
-                        this.walls.forEach(function (w) {
-                            w.y -= _this.tileSize * 17;
+                        this.objects.forEach(function (o) {
+                            o.y -= _this.tileSize * 17;
                         });
                         this.level = 4;
                     }
                     else if (this.player.x < 0) {
-                        this.player.x += this.tileSize * 20;
-                        this.walls.forEach(function (w) {
-                            w.x += _this.tileSize * 20;
+                        this.objects.forEach(function (o) {
+                            o.x += _this.tileSize * 20;
                         });
                         this.level = 1;
                     }
                     break;
                 case 4:
                     if (this.player.y < 0) {
-                        this.player.y += this.tileSize * 17;
-                        this.walls.forEach(function (w) {
-                            w.y += _this.tileSize * 17;
+                        this.objects.forEach(function (o) {
+                            o.y += _this.tileSize * 17;
                         });
                         this.level = 3;
                     }
                     else if (this.player.x < 0) {
-                        this.player.x += this.tileSize * 20;
-                        this.walls.forEach(function (w) {
-                            w.x += _this.tileSize * 20;
+                        this.objects.forEach(function (o) {
+                            o.x += _this.tileSize * 20;
                         });
                         this.level = 2;
                     }
@@ -211,8 +218,7 @@ var scenes;
         PlayScene.prototype.Main = function () {
             var _this = this;
             //this.addChild(this.backGroundImage);
-            this.addChild(this.player);
-            this.walls.forEach(function (x) {
+            this.objects.forEach(function (x) {
                 _this.addChild(x);
             });
             this.addChild(this.playLabel);
