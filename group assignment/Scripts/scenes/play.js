@@ -33,10 +33,33 @@ var scenes;
             this.checkPoints = new Array();
             this.hands = new Array();
             this.ghosts = new Array();
+            this.traps = new Array();
             this.level = 1;
             this.checkPointLevel = this.level;
+            this.trapsActivation = [false, false, false];
             this.GenerateLevel();
+            this.GenerateTraps();
             this.Main();
+        };
+        PlayScene.prototype.GenerateTraps = function () {
+            //hidden spikes
+            this.instantiateHiddenHand(7, 16);
+            //trap 0
+        };
+        PlayScene.prototype.updateTraps = function () {
+            //hidden traps
+            for (var i = 0; i < 1; i++) {
+                if (Math.abs(this.player.x - this.traps[i].x) < 50 && Math.abs(this.player.y - this.traps[i].y) < 50)
+                    this.trapsActivation[i] = true;
+                if (this.trapsActivation[i])
+                    this.traps[i].y = -10000;
+            }
+            //trap 0
+        };
+        PlayScene.prototype.instantiateHiddenHand = function (x, y) {
+            var wall = new objects.Wall((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize);
+            this.traps.push(wall);
+            this.objects.push(wall);
         };
         PlayScene.prototype.GenerateLevel = function () {
             this.initMap = [["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "end", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
@@ -55,7 +78,7 @@ var scenes;
                 ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", "", "", "", "", "", "wall", "hands", "hands", "wall", "", "", "wall", "", "hands", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
                 ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "hands", "hands", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
                 ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
-                ["wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall"],
+                ["wall", "wall", "", "", "", "", "", "hands", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall"],
                 ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "", "wall", "", "", "hands", "", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall"],
                 ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "checkpoint", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "gray", "wall", "wall", "wall"],
                 ["wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "wall", "", "", "", "", "", "", "", "hands", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall"],
@@ -152,9 +175,9 @@ var scenes;
             if(managers.AABBCollisions.Check(this.win, checkPoint)){
                     objects.Game.currentScene = config.Scene.OVER;
                 }
-            
-        
-        */ switch (this.level) {
+        */
+            this.updateTraps();
+            switch (this.level) {
                 case 1:
                     if (this.player.y > this.tileSize * 17) {
                         this.moveScreen(2);

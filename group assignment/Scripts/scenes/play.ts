@@ -17,7 +17,8 @@ module scenes {
         private checkPointLevel:number;
         private hands: Array<objects.hand>;
         private ghosts: Array<objects.ghost>;
-        private win: objects.GameObject;
+        private traps: Array<objects.GameObject>;
+        private trapsActivation: boolean[];
         
         // Constructor
         constructor(assetManager: createjs.LoadQueue) {
@@ -37,11 +38,36 @@ module scenes {
             this.checkPoints=new Array();
             this.hands = new Array();
             this.ghosts=new Array();
+            this.traps=new Array();
             this.level=1;
             this.checkPointLevel=this.level;
+            this.trapsActivation=[false,false,false]; 
             this.GenerateLevel();
+            this.GenerateTraps();
             this.Main();
+        }
+        public GenerateTraps(): void {
+            //hidden spikes
+            this.instantiateHiddenHand(7,16);
+            //trap 0
+            
+        }
 
+        public updateTraps(): void {
+            //hidden traps
+            for(var i:number = 0; i<1; i++){ 
+                if(Math.abs(this.player.x-this.traps[i].x)<50&&Math.abs(this.player.y-this.traps[i].y)<50)
+                    this.trapsActivation[i]=true;
+
+                if(this.trapsActivation[i])
+                    this.traps[i].y=-10000;
+            } 
+            //trap 0
+        }
+        public instantiateHiddenHand(x:number,y:number):void{
+            var wall=new objects.Wall((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize);
+            this.traps.push(wall);
+            this.objects.push(wall);
         }
 
         public GenerateLevel(): void {
@@ -61,7 +87,7 @@ module scenes {
                     ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", "","", "", "", "", "wall", "hands", "hands", "wall", "", "", "wall", "", "hands", "wall", "wall", "wall", "wall", "wall", "wall", "wall"],
                     ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "", "","wall", "wall", "hands", "hands", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
                     ["wall", "wall", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall", "", "", "","wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "", "", "", "", "", "", "wall", "wall", "wall"],
-                    ["wall", "wall", "", "", "", "", "wall", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "","wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall"],
+                    ["wall", "wall", "", "", "", "", "", "hands", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "","wall", "wall", "wall", "wall", "wall", "wall", "wall", "wall", "", "", "wall", "wall", "wall", "wall", "", "", "", "wall", "wall", "wall"],
                     ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "wall", "wall", "wall", "", "", "","wall", "", "", "hands", "", "", "", "", "", "", "", "", "", "", "", "", "", "wall", "wall", "wall"],
                     ["wall", "wall", "", "", "", "", "", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "checkpoint","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "gray", "wall", "wall", "wall"],
                     ["wall", "wall", "", "", "", "wall", "wall", "wall", "wall", "wall", "", "", "", "", "hands", "hands", "hands", "", "", "wall","", "", "", "", "", "", "", "hands", "", "", "", "", "", "", "", "wall", "wall", "wall", "wall", "wall"],
@@ -163,9 +189,10 @@ module scenes {
             if(managers.AABBCollisions.Check(this.win, checkPoint)){
                     objects.Game.currentScene = config.Scene.OVER;
                 }  
-            
-        
-        */switch(this.level){
+        */
+       this.updateTraps();
+       
+        switch(this.level){
             case 1:
                 if(this.player.y>this.tileSize*17){
                     this.moveScreen(2);
