@@ -1,0 +1,32 @@
+{
+
+"images": [
+    "minerSprites.png"
+],
+
+"framerate": 20,
+"frames": [
+    [1, 1, 31, 14, 0, 0, 0],
+    [33, 1, 23, 28, 0, 0, 0],
+    [1, 16, 21, 30, 0, 0, 0],
+    [23, 30, 21, 30, 0, 0, 0],
+    [45, 30, 16, 31, 0, 0, 0],
+    [1, 47, 21, 30, 0, 0, 0],
+    [23, 61, 17, 31, 0, 0, 0],
+    [41, 62, 16, 31, 0, 0, 0]
+],
+
+"animations": {
+    "minerDead": { "frames": [0] },
+    "minerDab": { "frames": [1] },
+    "minerJump": { "frames": [2] },
+    "minerIdle": { "frames": [6] },
+	"minerRunning": { "frames": [4,3,7,5] }
+},
+
+"texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:728bc74f0ac553fa890fc5f494958ec2:6eb66174097bccdbf84be7d4eec60841:66defb97dddcb6e63aebb3aa68b2ac59$",
+        "Created with TexturePacker (https://www.codeandweb.com/texturepacker) for EaselJS"
+]
+
+}

@@ -1,0 +1,27 @@
+{
+
+"images": [
+    "wallSprites.png"
+],
+
+"framerate": 20,
+"frames": [
+    [0, 0, 48, 48, 0, 0, 0],
+    [48, 0, 48, 48, 0, 0, 0],
+    [96, 0, 48, 48, 0, 0, 0],
+    [144, 0, 48, 48, 0, 0, 0]
+],
+
+"animations": {
+    "background": { "frames": [0] },
+    "fakeWall": { "frames": [1] },
+    "hiddenWall": { "frames": [2] },
+    "wall": { "frames": [3] }
+},
+
+"texturepacker": [
+        "SmartUpdateHash: $TexturePacker:SmartUpdate:835f1eabd508a7af5d53abb7d909b7d4:3feac4a14bc8d3f1992e7b929dc7e887:6a7bbcfcf61cf8815677d946611a942b$",
+        "Created with TexturePacker (https://www.codeandweb.com/texturepacker) for EaselJS"
+]
+
+}
