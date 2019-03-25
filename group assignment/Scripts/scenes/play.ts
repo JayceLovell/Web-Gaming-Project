@@ -42,7 +42,7 @@ module scenes {
             this.level=1;
             this.checkPointLevel=this.level;
             this.trapsActivation=new Array();
-            for(var i:number = 0; i<200; i++){ //trap length
+            for(var i:number = 0; i<1000; i++){ //trap length
                this.trapsActivation.push(false);
             } 
             this.GenerateLevel();
@@ -51,45 +51,105 @@ module scenes {
         }
         public GenerateTraps(): void {
             //hidden spikes in walls
-            this.addHiddenHandInWall(7,16);//0
-            this.addHiddenHandInWall(15,20);
-            this.addHiddenHandInWall(22,25);
-            this.addHiddenHandInWall(22,26);
-            this.addHiddenHandInWall(23,25);
-            this.addHiddenHandInWall(23,26);//5
-            this.addHiddenHandInWall(28,19);
-            this.addHiddenHandInWall(28,18);
-            this.addHiddenHandInWall(28,17);
-            this.addHiddenHandInWall(29,19);
-            this.addHiddenHandInWall(29,18);//10
-            this.addHiddenHandInWall(29,17);
-            this.addHiddenHandInWall(30,31);
-            this.addHiddenHandInWall(31,19);
-            this.addHiddenHandInWall(34,16);
-            this.addHiddenHandInWall(13,9);//15
-            this.addHiddenHandInWall(14,9);
-            this.addHiddenHandInWall(15,9);
-            this.addHiddenHandInWall(23,6);//18
-            //hidden walls
+            this.addFakeWall(7,16);//0
+            this.addFakeWall(15,20);
+            this.addFakeWall(22,25);
+            this.addFakeWall(22,26);
+            this.addFakeWall(23,25);
+            this.addFakeWall(23,26);//5
+            this.addFakeWall(28,19);
+            this.addFakeWall(28,18);
+            this.addFakeWall(28,17);
+            this.addFakeWall(29,19);
+            this.addFakeWall(29,18);//10
+            this.addFakeWall(29,17);
+            this.addFakeWall(30,31);
+            this.addFakeWall(31,19);
+            this.addFakeWall(34,16);
+            this.addFakeWall(13,9);//15
+            this.addFakeWall(14,9);
+            this.addFakeWall(15,9);
+            this.addFakeWall(23,6);
+            //invisible walls
+            this.addInvisWall(10,13);
+            this.addInvisWall(20,29);//20
+            this.addInvisWall(20,30);
+            this.addInvisWall(20,31);
+            this.addInvisWall(33,9);
+            //fake walls
+            this.addFakeWall(13,20);
+            this.addFakeWall(22,11);//25
+            this.addFakeWall(22,23);
+            this.addFakeWall(22,24);
+            this.addFakeWall(22,27);
+            this.addFakeWall(23,23);
+            this.addFakeWall(23,24);//30
+            this.addFakeWall(23,27);
+            this.addFakeWall(34,26);
+            this.addFakeWall(34,27);
+            this.addFakeWall(35,26);
+            this.addFakeWall(35,27);//35
+            this.addFakeWall(36,26);
+            this.addFakeWall(36,27);
+            this.addFakeWall(37,7);
+            this.addFakeWall(37,8);
+            this.addFakeWall(37,9);//40
+            this.addInvisTrap(20,23);
+            this.addInvisTrap(21,23);
+            this.addInvisTrap(22,23);
+            this.addInvisTrap(22,29);
+            this.addInvisTrap(22,30);//45
             //trap 0
             
         }
 
         public updateTraps(): void {
-            //hidden traps
+            //hidden traps in walls
             for(var i:number = 0; i<18; i++){ 
-                if(Math.abs(this.player.x-this.traps[i].x)<50&&Math.abs(this.player.y-this.traps[i].y)<50)
-                    this.trapsActivation[i]=true;
-
-                if(this.trapsActivation[i])
+                if(Math.abs(this.player.x-this.traps[i].x)<50&&Math.abs(this.player.y-this.traps[i].y)<50&&!this.trapsActivation[i]){
                     this.traps[i].y=-10000;
+                    this.trapsActivation[i]=true;
+                }
+            } 
+            //invis wall
+            for(var i:number = 18; i<23; i++){ 
+                if(Math.abs(this.player.x-this.traps[i].x)<50&&Math.abs(this.player.y-this.traps[i].y-10000)<50&&!this.trapsActivation[i]){
+                    this.traps[i].y+=10000;
+                    this.trapsActivation[i]=true;
+                }                    
+            } 
+            //fake walls
+            for(var i:number = 23; i<40; i++){ 
+                if(Math.abs(this.player.x-this.traps[i].x)<50&&Math.abs(this.player.y-this.traps[i].y)<50&&!this.trapsActivation[i]){
+                    this.traps[i].y=-10000;
+                    this.trapsActivation[i]=true;
+                }
+            } 
+            //invis spikes
+            for(var i:number = 40; i<45; i++){ 
+                if(Math.abs(this.player.x-this.traps[i].x)<50&&Math.abs(this.player.y-this.traps[i].y-10000)<50&&!this.trapsActivation[i]){
+                    this.traps[i].y+=10000;
+                    this.trapsActivation[i]=true;
+                }                    
             } 
             //trap 0
         }
-        public addHiddenHandInWall(x:number,y:number):void{
+        public addFakeWall(x:number,y:number):void{
             var wall=new objects.Wall((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize);
             this.traps.push(wall);
             this.objects.push(wall);
+        }
+        public addInvisWall(x:number,y:number):void{
+            var wall=new objects.Wall((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize -10000);
+            this.walls.push(wall);
+            this.traps.push(wall);
+            this.objects.push(wall);
+        }
+        public addInvisTrap(x:number,y:number):void{
+            var hand=new objects.hand((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize -10000);
+            this.hands.push(hand);
+            this.traps.push(hand);
+            this.objects.push(hand);
         }
 
         public GenerateLevel(): void {
