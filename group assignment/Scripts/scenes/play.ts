@@ -103,7 +103,13 @@ module scenes {
             //trap 0
             this.addTrap(8,10);//46
             //trap 1
-
+            this.addInvisWall(10,22);//47
+            this.addTrap(14,16);
+            this.addTrap(14,17);
+            this.addTrap(15,16);
+            this.addTrap(15,17);
+            this.addTrap(16,16);
+            this.addTrap(16,17);//53
             //trap 2
 
             //trap 3
@@ -148,10 +154,18 @@ module scenes {
                 }                    
             } 
             //trap 0
-            if(Math.abs(this.player.x-this.traps[46].x)<50&&!this.trapsActivation[45])
+            if(Math.abs(this.player.x-this.traps[46].x)<50&&!this.trapsActivation[46])
                 this.trapsActivation[46]=true;
             if(this.trapsActivation[46]&&this.traps[46].y<10000)
                 this.traps[46].y+=5;
+            //trap 1
+            if(this.player.x>this.traps[47].x+this.tileSize*20&&this.player.y<this.traps[47].y+10000+this.tileSize*3&&!this.trapsActivation[47]){
+                this.traps[47].y+=10000;
+                for(var i:number = 48; i<54; i++){ 
+                    this.traps[i].y=-10000;
+                } 
+                this.trapsActivation[47]=true;
+            }
         }
         public addWall(x:number,y:number):void{
             var wall=new objects.Wall((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize);
@@ -284,11 +298,14 @@ module scenes {
             });
             
             this.hands.forEach(hand => {
+                /*
                 if(managers.AABBCollisions.Check(this.player, hand)){
                     this.player.x=this.checkPointX;
                     this.player.y=this.checkPointY;
                     this.moveScreen(this.checkPointLevel);
+                    
                 }
+                */
             }); 
             /*
             this.ghosts.forEach(ghost => {
@@ -305,6 +322,7 @@ module scenes {
        this.updateTraps();
        
         switch(this.level){
+            /*
             case 1:
                 if(this.player.y>this.tileSize*17){
                     this.moveScreen(2);
@@ -332,6 +350,8 @@ module scenes {
                 }else if(this.player.x<0){
                     this.moveScreen(2);
                 }
+            break;*/
+            default:
             break;
         }
 
