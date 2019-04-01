@@ -227,7 +227,7 @@ var scenes;
                     ["wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "checkpoint", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "hands     ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "hands     ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "hands     ", "wall      ", "          ", "          ", "          ", "wall      ", "          ", "          ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
-                    ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "ghost     ", "wall      ", "wall      ", "wall      "],
+                    ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "ghost     ", "          ", "          ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "hands     ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "hands     ", "          ", "          ", "wall      ", "wall      ", "          ", "wall      ", "          ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
@@ -285,6 +285,9 @@ var scenes;
         PlayScene.prototype.Update = function () {
             var _this = this;
             this.player.Update();
+            this.ghosts.forEach(function (ghost) {
+                ghost.Update();
+            });
             this.backButton.setX(this.backButton.getX() + 5);
             this.player.colliding = false;
             this.walls.forEach(function (wall) {
@@ -313,59 +316,55 @@ var scenes;
                 }
             });
             this.hands.forEach(function (hand) {
-                /*
-                if(managers.AABBCollisions.Check(this.player, hand)){
-                    this.player.x=this.checkPointX;
-                    this.player.y=this.checkPointY;
-                    this.moveScreen(this.checkPointLevel);
-                    
-                }
-                */
-            });
-            /*
-            this.ghosts.forEach(ghost => {
-                ghost.Update();
-                if(managers.AABBCollisions.Check(this.player, ghost)){
-                    this.player.x=this.checkPointX;
-                    this.player.y=this.checkPointY;
+                if (managers.AABBCollisions.Check(_this.player, hand)) {
+                    _this.player.x = _this.checkPointX;
+                    _this.player.y = _this.checkPointY;
+                    _this.moveScreen(_this.checkPointLevel);
                 }
             });
-            
-        */
+            this.ghosts.forEach(function (ghost) {
+                if (managers.AABBCollisions.Check(_this.player, ghost)) {
+                    _this.player.x = _this.checkPointX;
+                    _this.player.y = _this.checkPointY;
+                }
+            });
             if (managers.AABBCollisions.Check(this.end, this.player)) {
                 objects.Game.currentScene = config.Scene.OVER;
             }
             this.updateTraps();
             switch (this.level) {
-                /*
                 case 1:
-                    if(this.player.y>this.tileSize*17){
+                    if (this.player.y > this.tileSize * 17) {
                         this.moveScreen(2);
-                    }else if(this.player.x>this.tileSize*20){
+                    }
+                    else if (this.player.x > this.tileSize * 20) {
                         this.moveScreen(3);
                     }
-                break;
+                    break;
                 case 2:
-                    if(this.player.y<0){
+                    if (this.player.y < 0) {
                         this.moveScreen(1);
-                    }else if(this.player.x>this.tileSize*20){
+                    }
+                    else if (this.player.x > this.tileSize * 20) {
                         this.moveScreen(4);
                     }
-                break;
+                    break;
                 case 3:
-                    if(this.player.y>this.tileSize*17){
+                    if (this.player.y > this.tileSize * 17) {
                         this.moveScreen(4);
-                    }else if(this.player.x<0){
+                    }
+                    else if (this.player.x < 0) {
                         this.moveScreen(1);
                     }
-                break;
+                    break;
                 case 4:
-                    if(this.player.y<0){
+                    if (this.player.y < 0) {
                         this.moveScreen(3);
-                    }else if(this.player.x<0){
+                    }
+                    else if (this.player.x < 0) {
                         this.moveScreen(2);
                     }
-                break;*/
+                    break;
                 default:
                     break;
             }

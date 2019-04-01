@@ -31,6 +31,8 @@
         {id: "hand", src:"./Assets/SpriteSheets/Individual/bigSpike.png"},
         {id: "savePoint", src:"./Assets/SpriteSheets/Individual/savePoint.png"},
         {id: "portal", src:"./Assets/SpriteSheets/Individual/portal1.png"},
+        {id: "ghost", src:"./Assets/SpriteSheets/Individual/evilHand.png"},
+
 
     ];
 

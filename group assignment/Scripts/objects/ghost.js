@@ -20,32 +20,28 @@ var objects;
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
             if (tileSize === void 0) { tileSize = 48; }
-            var _this = _super.call(this, "player") || this;
+            var _this = _super.call(this, "ghost") || this;
             // Variables
             _this.forward = true;
             _this.isPlayerClose = false;
-            _this.xmin = x - 5 * tileSize;
-            _this.xmax = x;
+            _this.xmin = x - (2 * tileSize);
+            _this.xmax = x + (2 * tileSize);
             _this.ymin = y;
             _this.ymax = y;
             _this.x = x;
             _this.y = y;
+            _this.speed = 2;
             return _this;
         }
         Ghost.prototype.Start = function () { };
         Ghost.prototype.Update = function () {
-            if (this.forward) {
-                this.speedX = Math.abs(this.xmax - this.x);
-                this.speedY = Math.abs(this.ymax - this.y);
-                if (Math.abs(this.xmax - this.x) < 1 && Math.abs(this.ymax - this.y) < 1)
-                    this.forward = false;
+            if (this.x <= this.xmin) {
+                this.speed = 2;
             }
-            else {
-                this.speedX = Math.abs(this.xmin - this.x);
-                this.speedY = Math.abs(this.ymin - this.y);
-                if (Math.abs(this.xmin - this.x) < 1 && Math.abs(this.ymin - this.y) < 1)
-                    this.forward = true;
+            else if (this.x >= this.xmax) {
+                this.speed = -2;
             }
+            this.x += this.speed;
         };
         Ghost.prototype.Reset = function () { };
         Ghost.prototype.Move = function () { };
