@@ -13,43 +13,41 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
-    var ghost = /** @class */ (function (_super) {
-        __extends(ghost, _super);
+    var Ghost = /** @class */ (function (_super) {
+        __extends(Ghost, _super);
         // Constructor
-        function ghost(x, y, xmin, xmax, ymin, ymax) {
+        function Ghost(x, y, tileSize) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
-            var _this = _super.call(this, "player") || this;
+            if (tileSize === void 0) { tileSize = 48; }
+            var _this = _super.call(this, "ghost") || this;
             // Variables
             _this.forward = true;
-            _this.xmin = xmin;
-            _this.xmax = xmax;
-            _this.ymin = ymin;
-            _this.ymax = ymax;
+            _this.isPlayerClose = false;
+            _this.xmin = x - (2 * tileSize);
+            _this.xmax = x + (2 * tileSize);
+            _this.ymin = y;
+            _this.ymax = y;
             _this.x = x;
             _this.y = y;
+            _this.speed = 2;
             return _this;
         }
-        ghost.prototype.Start = function () { };
-        ghost.prototype.Update = function () {
-            if (this.forward) {
-                this.speedX = Math.abs(this.xmax - this.x);
-                this.speedY = Math.abs(this.ymax - this.y);
-                if (Math.abs(this.xmax - this.x) < 1 && Math.abs(this.ymax - this.y) < 1)
-                    this.forward = false;
+        Ghost.prototype.Start = function () { };
+        Ghost.prototype.Update = function () {
+            if (this.x <= this.xmin) {
+                this.speed = 2;
             }
-            else {
-                this.speedX = Math.abs(this.xmin - this.x);
-                this.speedY = Math.abs(this.ymin - this.y);
-                if (Math.abs(this.xmin - this.x) < 1 && Math.abs(this.ymin - this.y) < 1)
-                    this.forward = true;
+            else if (this.x >= this.xmax) {
+                this.speed = -2;
             }
+            this.x += this.speed;
         };
-        ghost.prototype.Reset = function () { };
-        ghost.prototype.Move = function () { };
-        ghost.prototype.CheckBounds = function () { };
-        return ghost;
+        Ghost.prototype.Reset = function () { };
+        Ghost.prototype.Move = function () { };
+        Ghost.prototype.CheckBounds = function () { };
+        return Ghost;
     }(objects.GameObject));
-    objects.ghost = ghost;
+    objects.Ghost = Ghost;
 })(objects || (objects = {}));
 //# sourceMappingURL=ghost.js.map

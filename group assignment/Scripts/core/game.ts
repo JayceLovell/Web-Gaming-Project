@@ -26,9 +26,13 @@
         {id: "backButton", src:"./Assets/Images/backButton.png"},
         {id: "backGroundImageMain", src:"./Assets/Images/backgroundimage.png"},
         {id: "backGroundImagePlay", src:"./Assets/Images/LevelLayout.jpg"},
-        {id: "wall", src:"./Assets/Images/wall.png"},
-        {id: "player", src:"./Assets/Images/nextButton.png"},
-        {id: "hand", src:"./Assets/Images/backButton.png"},
+        {id: "wall", src:"./Assets/SpriteSheets/Individual/wall.png"},
+        {id: "player", src:"./Assets/SpriteSheets/Individual/minerIdle.png"},
+        {id: "hand", src:"./Assets/SpriteSheets/Individual/bigSpike.png"},
+        {id: "savePoint", src:"./Assets/SpriteSheets/Individual/savePoint.png"},
+        {id: "portal", src:"./Assets/SpriteSheets/Individual/portal1.png"},
+        {id: "ghost", src:"./Assets/SpriteSheets/Individual/evilHand.png"},
+
 
     ];
 
