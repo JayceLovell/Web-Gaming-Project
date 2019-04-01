@@ -121,6 +121,7 @@ var scenes;
             this.addWall(26, 21);
             this.addWall(28, 21); //58
             //trap 3
+            this.addInvisTrap(35, 11); //59
             //trap 4
             //trap 5
             //trap 6
@@ -187,6 +188,14 @@ var scenes;
                 }
             }
             //trap3
+            if (!this.trapsActivation[50]) {
+                this.traps[59].y += 10000;
+                this.trapsActivation[50] = true;
+            } /*
+            if(!this.trapsActivation[50]&&this.player.y<this.traps[59].y+10000-this.tileSize*3&&this.player.x>this.traps[59].x-this.tileSize){
+                this.traps[57].y+=10000;
+                this.trapsActivation[50]=true;
+            }*/
             //trap4
             //trap5
             //trap5
@@ -321,17 +330,13 @@ var scenes;
             });
             this.hands.forEach(function (hand) {
                 if (managers.AABBCollisions.Check(_this.player, hand)) {
-                    _this.player.x = _this.lastCheckpoint.x;
-                    _this.player.y = _this.lastCheckpoint.y;
-                    _this.moveScreen(_this.lastCheckpoint.index);
+                    /*
+                    this.player.x=this.lastCheckpoint.x;
+                    this.player.y=this.lastCheckpoint.y;
+                    this.moveScreen(this.lastCheckpoint.index);*/
                 }
             });
             this.ghosts.forEach(function (ghost) {
-                if (managers.AABBCollisions.Check(_this.player, ghost)) {
-                    _this.player.x = _this.lastCheckpoint.x;
-                    _this.player.y = _this.lastCheckpoint.y;
-                    _this.moveScreen(_this.lastCheckpoint.index);
-                }
             });
             if (managers.AABBCollisions.Check(this.end, this.player)) {
                 objects.Game.currentScene = config.Scene.OVER;
@@ -405,11 +410,19 @@ var scenes;
                             this.objects.forEach(function (o) {
                                 o.x -= _this.tileSize * 20;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
+                            });
                             break;
                         case 4:
                             this.objects.forEach(function (o) {
                                 o.x -= _this.tileSize * 20;
                                 o.y -= _this.tileSize * 17;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
                             });
                             break;
                     }
@@ -426,10 +439,18 @@ var scenes;
                                 o.x -= _this.tileSize * 20;
                                 o.y += _this.tileSize * 17;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
+                            });
                             break;
                         case 4:
                             this.objects.forEach(function (o) {
                                 o.x -= _this.tileSize * 20;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
                             });
                             break;
                     }
@@ -440,11 +461,19 @@ var scenes;
                             this.objects.forEach(function (o) {
                                 o.x += _this.tileSize * 20;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
+                            });
                             break;
                         case 2:
                             this.objects.forEach(function (o) {
                                 o.x += _this.tileSize * 20;
                                 o.y -= _this.tileSize * 17;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
                             });
                             break;
                         case 4:
@@ -461,10 +490,18 @@ var scenes;
                                 o.x += _this.tileSize * 20;
                                 o.y += _this.tileSize * 17;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
+                            });
                             break;
                         case 2:
                             this.objects.forEach(function (o) {
                                 o.x += _this.tileSize * 20;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
                             });
                             break;
                         case 3:

@@ -26,8 +26,6 @@ var objects;
             _this.isPlayerClose = false;
             _this.xmin = x - (2 * tileSize);
             _this.xmax = x + (2 * tileSize);
-            _this.ymin = y;
-            _this.ymax = y;
             _this.x = x;
             _this.y = y;
             _this.speed = 2;
