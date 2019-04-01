@@ -19,7 +19,7 @@ module objects {
             this.x=x;
             this.y=y;
             this.speed = 2;
-  
+
         }
         public Start(){}
 
