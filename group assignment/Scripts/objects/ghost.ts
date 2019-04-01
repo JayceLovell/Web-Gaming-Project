@@ -1,18 +1,21 @@
 module objects {
-    export class ghost extends GameObject {
+    export class Ghost extends GameObject {
         // Variables
         private forward: boolean =true;
+        public isPlayerClose:boolean = false;
+        public speed:number;
+        public vSpeed:number;
         private xmin:number;
         private xmax:number;
         private ymin:number;
         private ymax:number;
         // Constructor
-        constructor(x:number = 0, y:number = 0,xmin:number,xmax:number, ymin:number,ymax:number) {
+        constructor(x:number = 0, y:number = 0,tileSize:number=48) {
             super("player"); 
-            this.xmin=xmin;
-            this.xmax=xmax;
-            this.ymin=ymin;
-            this.ymax=ymax;
+            this.xmin=x-5*tileSize;
+            this.xmax=x;
+            this.ymin=y;
+            this.ymax=y;
             this.x=x;
             this.y=y;
         }

@@ -13,19 +13,19 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
-    var checkPoint = /** @class */ (function (_super) {
-        __extends(checkPoint, _super);
-        function checkPoint(x, y) {
+    var End = /** @class */ (function (_super) {
+        __extends(End, _super);
+        function End(x, y) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
-            var _this = _super.call(this, "savePoint") || this;
+            var _this = _super.call(this, "portal") || this;
             _this.x = x;
             _this.y = y;
             return _this;
         }
-        checkPoint.prototype.Update = function () { };
-        return checkPoint;
+        End.prototype.Update = function () { };
+        return End;
     }(objects.GameObject));
-    objects.checkPoint = checkPoint;
+    objects.End = End;
 })(objects || (objects = {}));
-//# sourceMappingURL=checkpoint.js.map
+//# sourceMappingURL=end.js.map

@@ -13,25 +13,27 @@ var __extends = (this && this.__extends) || (function () {
 })();
 var objects;
 (function (objects) {
-    var ghost = /** @class */ (function (_super) {
-        __extends(ghost, _super);
+    var Ghost = /** @class */ (function (_super) {
+        __extends(Ghost, _super);
         // Constructor
-        function ghost(x, y, xmin, xmax, ymin, ymax) {
+        function Ghost(x, y, tileSize) {
             if (x === void 0) { x = 0; }
             if (y === void 0) { y = 0; }
+            if (tileSize === void 0) { tileSize = 48; }
             var _this = _super.call(this, "player") || this;
             // Variables
             _this.forward = true;
-            _this.xmin = xmin;
-            _this.xmax = xmax;
-            _this.ymin = ymin;
-            _this.ymax = ymax;
+            _this.isPlayerClose = false;
+            _this.xmin = x - 5 * tileSize;
+            _this.xmax = x;
+            _this.ymin = y;
+            _this.ymax = y;
             _this.x = x;
             _this.y = y;
             return _this;
         }
-        ghost.prototype.Start = function () { };
-        ghost.prototype.Update = function () {
+        Ghost.prototype.Start = function () { };
+        Ghost.prototype.Update = function () {
             if (this.forward) {
                 this.speedX = Math.abs(this.xmax - this.x);
                 this.speedY = Math.abs(this.ymax - this.y);
@@ -45,11 +47,11 @@ var objects;
                     this.forward = true;
             }
         };
-        ghost.prototype.Reset = function () { };
-        ghost.prototype.Move = function () { };
-        ghost.prototype.CheckBounds = function () { };
-        return ghost;
+        Ghost.prototype.Reset = function () { };
+        Ghost.prototype.Move = function () { };
+        Ghost.prototype.CheckBounds = function () { };
+        return Ghost;
     }(objects.GameObject));
-    objects.ghost = ghost;
+    objects.Ghost = Ghost;
 })(objects || (objects = {}));
 //# sourceMappingURL=ghost.js.map
