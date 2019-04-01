@@ -1,7 +1,6 @@
 module scenes {
     export class PlayScene extends objects.Scene {
         // Variables
-        private playLabel: objects.Label;
         private nextButton: objects.Button;
         private backButton: objects.Button;
         private backGroundImage: objects.Image;
@@ -28,7 +27,6 @@ module scenes {
         }
         // Methods
         public Start(): void {
-            this.playLabel = new objects.Label("Game Playing", "40px", "Consolas", "#FFFFFF", 320, 100, true);
             this.nextButton = new objects.Button(this.assetManager, "nextButton", 500, 340);
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
@@ -129,12 +127,11 @@ module scenes {
             //trap 3
             this.addInvisTrap(35,11);//59
             //trap 4
-
+            this.addInvisTrap(17,7);
+            this.addInvisTrap(17,8);//61
             //trap 5
-
-            //trap 6
-
-            //trap 7
+            this.addTrap(9,2);
+            this.addTrap(9,3);//63
         }
 
         public updateTraps(): void {
@@ -198,19 +195,26 @@ module scenes {
                     this.trap2Progress+=2;
                 } 
             }
-            //trap3
-            
-            if(!this.trapsActivation[50]){
+            //trap3   
+            if(!this.trapsActivation[50]&&this.player.y<this.traps[59].y+10000-this.tileSize*3&&this.player.x>this.traps[59].x-this.tileSize*2){
+                console.log("trigger");
                 this.traps[59].y+=10000;
                 this.trapsActivation[50]=true;
-            }/*
-            if(!this.trapsActivation[50]&&this.player.y<this.traps[59].y+10000-this.tileSize*3&&this.player.x>this.traps[59].x-this.tileSize){
-                this.traps[57].y+=10000;
-                this.trapsActivation[50]=true;
-            }*/
+            }
             //trap4
+            if(this.player.x>this.traps[60].x&&this.player.x<this.traps[60].x+this.tileSize*2&&this.player.y<this.traps[60].y+this.tileSize*3+10000&&!this.trapsActivation[51]){
+                    this.traps[60].y+=10000;
+                    this.traps[61].y+=10000;
+                    this.trapsActivation[51]=true;
+            }
             //trap5
-            //trap5
+            if(this.player.x>this.traps[62].x&&this.player.y<this.traps[62].y+this.tileSize&&!this.trapsActivation[52]){
+                this.trapsActivation[52]=true;
+            }
+            if(this.trapsActivation[52]){
+                this.traps[62].x+=1;
+                this.traps[63].x+=1;
+            }
         }
         public addWall(x:number,y:number):void{
             var wall=new objects.Wall((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize);
@@ -256,10 +260,10 @@ module scenes {
            ["wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ","wall      ", "wall      ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
            ["wall      ", "wall      ", "          ", "          ", "          ", "checkpoint", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "checkpoint","wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
            ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ","wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "hands     ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
-           ["wall      ", "wall      ", "hands     ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "hands     ", "wall      ", "          ", "          ", "          ","wall      ", "          ", "          ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
-           ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ","          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "ghost     ", "          ", "          ", "wall      ", "wall      ", "wall      "],
-           ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "hands     ", "hands     ", "          ","          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "checkpoint", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
-           ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ","wall      ", "hands     ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
+           ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "hands     ", "wall      ", "          ", "          ", "          ","wall      ", "          ", "          ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
+           ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ","          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "ghost     ", "          ", "          ", "wall      ", "wall      ", "wall      "],
+           ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "hands     ", "hands     ", "          ","          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "checkpoint", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
+           ["wall      ", "wall      ", "hands     ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ","wall      ", "hands     ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
            ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ","wall      ", "wall      ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
            ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ","wall      ", "wall      ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
            ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "hands     ", "          ", "          ", "          ","hiddenwall", "wall      ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "hiddenwall", "hiddenwall", "hiddenwall", "wall      ", "wall      ", "wall      "],
@@ -355,20 +359,19 @@ module scenes {
             this.hands.forEach(hand => {
                 
                 if(managers.AABBCollisions.Check(this.player, hand)){
-                    /*
                     this.player.x=this.lastCheckpoint.x;
                     this.player.y=this.lastCheckpoint.y;
-                    this.moveScreen(this.lastCheckpoint.index);*/
+                    this.moveScreen(this.lastCheckpoint.index);
                 }
                 
             }); 
             
-            this.ghosts.forEach(ghost => {/*
+            this.ghosts.forEach(ghost => {
                 if(managers.AABBCollisions.Check(this.player, ghost)){
                     this.player.x=this.lastCheckpoint.x;
                     this.player.y=this.lastCheckpoint.y;
                     this.moveScreen(this.lastCheckpoint.index);
-                }*/
+                }
             });   
             
         
@@ -426,7 +429,6 @@ module scenes {
             this.objects.forEach(x => {
                 this.addChild(x)
             });
-            this.addChild(this.playLabel);
             
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
