@@ -5,17 +5,13 @@ module objects {
         public isPlayerClose:boolean = false;
         public speed:number;
         public vSpeed:number;
-        private xmin:number;
-        private xmax:number;
-        private ymin:number;
-        private ymax:number;
+        public xmin:number;
+        public xmax:number;
         // Constructor
         constructor(x:number = 0, y:number = 0,tileSize:number=48) {
             super("ghost"); 
             this.xmin= x - (2 * tileSize);
             this.xmax= x + (2 * tileSize);
-            this.ymin=y;
-            this.ymax=y;
             this.x=x;
             this.y=y;
             this.speed = 2;

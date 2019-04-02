@@ -23,7 +23,6 @@ var scenes;
         }
         // Methods
         PlayScene.prototype.Start = function () {
-            this.playLabel = new objects.Label("Game Playing", "40px", "Consolas", "#FFFFFF", 320, 100, true);
             this.nextButton = new objects.Button(this.assetManager, "nextButton", 500, 340);
             this.backButton = new objects.Button(this.assetManager, "backButton", 140, 340);
             this.backGroundImage = new objects.Image(this.assetManager, "backGroundImagePlay", 320, 400);
@@ -121,10 +120,13 @@ var scenes;
             this.addWall(26, 21);
             this.addWall(28, 21); //58
             //trap 3
+            this.addInvisTrap(35, 11); //59
             //trap 4
+            this.addInvisTrap(17, 7);
+            this.addInvisTrap(17, 8); //61
             //trap 5
-            //trap 6
-            //trap 7
+            this.addTrap(9, 2);
+            this.addTrap(9, 3); //63
         };
         PlayScene.prototype.updateTraps = function () {
             //hidden traps in walls
@@ -186,10 +188,26 @@ var scenes;
                     this.trap2Progress += 2;
                 }
             }
-            //trap3
+            //trap3   
+            if (!this.trapsActivation[50] && this.player.y < this.traps[59].y + 10000 - this.tileSize * 3 && this.player.x > this.traps[59].x - this.tileSize * 2) {
+                console.log("trigger");
+                this.traps[59].y += 10000;
+                this.trapsActivation[50] = true;
+            }
             //trap4
+            if (this.player.x > this.traps[60].x && this.player.x < this.traps[60].x + this.tileSize * 2 && this.player.y < this.traps[60].y + this.tileSize * 3 + 10000 && !this.trapsActivation[51]) {
+                this.traps[60].y += 10000;
+                this.traps[61].y += 10000;
+                this.trapsActivation[51] = true;
+            }
             //trap5
-            //trap5
+            if (this.player.x > this.traps[62].x && this.player.y < this.traps[62].y + this.tileSize && !this.trapsActivation[52]) {
+                this.trapsActivation[52] = true;
+            }
+            if (this.trapsActivation[52]) {
+                this.traps[62].x += 1;
+                this.traps[63].x += 1;
+            }
         };
         PlayScene.prototype.addWall = function (x, y) {
             var wall = new objects.Wall((x + 0.5) * this.tileSize, (y + 0.5) * this.tileSize);
@@ -234,10 +252,10 @@ var scenes;
                     ["wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "          ", "          ", "          ", "checkpoint", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "checkpoint", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "hands     ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
-                    ["wall      ", "wall      ", "hands     ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "hands     ", "wall      ", "          ", "          ", "          ", "wall      ", "          ", "          ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
-                    ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "ghost     ", "          ", "          ", "wall      ", "wall      ", "wall      "],
-                    ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "hands     ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "checkpoint", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
-                    ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "hands     ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
+                    ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "hands     ", "wall      ", "          ", "          ", "          ", "wall      ", "          ", "          ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      "],
+                    ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "ghost     ", "          ", "          ", "wall      ", "wall      ", "wall      "],
+                    ["wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "hands     ", "hands     ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "          ", "checkpoint", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
+                    ["wall      ", "wall      ", "hands     ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "hands     ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      "],
                     ["wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "          ", "wall      ", "wall      ", "hands     ", "          ", "          ", "          ", "hiddenwall", "wall      ", "hands     ", "hands     ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "wall      ", "          ", "          ", "          ", "hiddenwall", "hiddenwall", "hiddenwall", "wall      ", "wall      ", "wall      "],
@@ -387,7 +405,6 @@ var scenes;
             this.objects.forEach(function (x) {
                 _this.addChild(x);
             });
-            this.addChild(this.playLabel);
             this.nextButton.on("click", this.nextButtonClick);
             this.backButton.on("click", this.quitButtonClick);
         };
@@ -405,11 +422,19 @@ var scenes;
                             this.objects.forEach(function (o) {
                                 o.x -= _this.tileSize * 20;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
+                            });
                             break;
                         case 4:
                             this.objects.forEach(function (o) {
                                 o.x -= _this.tileSize * 20;
                                 o.y -= _this.tileSize * 17;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
                             });
                             break;
                     }
@@ -426,10 +451,18 @@ var scenes;
                                 o.x -= _this.tileSize * 20;
                                 o.y += _this.tileSize * 17;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
+                            });
                             break;
                         case 4:
                             this.objects.forEach(function (o) {
                                 o.x -= _this.tileSize * 20;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin -= _this.tileSize * 20;
+                                o.xmax -= _this.tileSize * 20;
                             });
                             break;
                     }
@@ -440,11 +473,19 @@ var scenes;
                             this.objects.forEach(function (o) {
                                 o.x += _this.tileSize * 20;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
+                            });
                             break;
                         case 2:
                             this.objects.forEach(function (o) {
                                 o.x += _this.tileSize * 20;
                                 o.y -= _this.tileSize * 17;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
                             });
                             break;
                         case 4:
@@ -461,10 +502,18 @@ var scenes;
                                 o.x += _this.tileSize * 20;
                                 o.y += _this.tileSize * 17;
                             });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
+                            });
                             break;
                         case 2:
                             this.objects.forEach(function (o) {
                                 o.x += _this.tileSize * 20;
+                            });
+                            this.ghosts.forEach(function (o) {
+                                o.xmin += _this.tileSize * 20;
+                                o.xmax += _this.tileSize * 20;
                             });
                             break;
                         case 3:
