@@ -307,7 +307,7 @@ var scenes;
                     }
                 }
             }
-            this.lastCheckpoint = this.checkPoints[1];
+            this.lastCheckpoint = this.checkPoints[2];
         };
         PlayScene.prototype.Update = function () {
             var _this = this;
