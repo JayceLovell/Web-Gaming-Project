@@ -340,6 +340,7 @@ module scenes {
                     }
                     else if(managers.AABBCollisions.checKSides(this.player, wall) == 2){
                         this.player.y = wall.y + wall.halfH + this.player.halfH - 0.1;
+                        if(this.player.vSpeed<0.5)
                         this.player.vSpeed =  0.5;
                     }
                     else if(managers.AABBCollisions.checKSides(this.player, wall) == 3){
