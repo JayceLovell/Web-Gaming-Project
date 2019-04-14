@@ -1,0 +1,24 @@
+{
+  "name": "webgame",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lite-server": "lite-server"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/preloadjs": "^0.6.32",
+    "@types/soundjs": "^0.6.27",
+    "@types/tweenjs": "^0.6.27",
+    "createjs": "^1.0.1",
+    "easeljs": "^1.0.2",
+    "preloadjs": "^1.0.1",
+    "soundjs": "^1.0.1",
+    "tweenjs": "^1.0.2",
+    "typescript": "^3.4.3",
+    "yarn": "^1.15.2"
+  }
+}
