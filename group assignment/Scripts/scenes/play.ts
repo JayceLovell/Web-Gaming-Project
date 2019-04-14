@@ -18,10 +18,15 @@ module scenes {
         private traps: Array<objects.GameObject>;
         private trapsActivation: Array<boolean>;
         private trap2Progress:number;
+        private backGroundMusic:createjs.AbstractSoundInstance;
+        private deadSound:createjs.AbstractSoundInstance;
         
         // Constructor
         constructor(assetManager: createjs.LoadQueue) {
             super(assetManager);
+            this.backGroundMusic = createjs.Sound.play("backGroundSound");
+            this.backGroundMusic.loop = -1;
+            this.backGroundMusic.volume = 10;
 
             this.Start();
         }
@@ -320,7 +325,7 @@ module scenes {
                 }
                 
             }
-            this.lastCheckpoint=this.checkPoints[1];
+            this.lastCheckpoint=this.checkPoints[2];
         }
 
         public Update(): void {
@@ -363,6 +368,7 @@ module scenes {
                     this.player.x=this.lastCheckpoint.x;
                     this.player.y=this.lastCheckpoint.y;
                     this.moveScreen(this.lastCheckpoint.index);
+                    this.deadSound =createjs.Sound.play("dead");
                 }
                 
             }); 
@@ -372,6 +378,7 @@ module scenes {
                     this.player.x=this.lastCheckpoint.x;
                     this.player.y=this.lastCheckpoint.y;
                     this.moveScreen(this.lastCheckpoint.index);
+                    this.deadSound =createjs.Sound.play("dead");
                 }
             });   
             

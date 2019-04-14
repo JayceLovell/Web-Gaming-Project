@@ -18,6 +18,9 @@ var scenes;
         // Constructor
         function PlayScene(assetManager) {
             var _this = _super.call(this, assetManager) || this;
+            _this.backGroundMusic = createjs.Sound.play("backGroundSound");
+            _this.backGroundMusic.loop = -1;
+            _this.backGroundMusic.volume = 10;
             _this.Start();
             return _this;
         }
@@ -304,7 +307,7 @@ var scenes;
                     }
                 }
             }
-            this.lastCheckpoint = this.checkPoints[1];
+            this.lastCheckpoint = this.checkPoints[2];
         };
         PlayScene.prototype.Update = function () {
             var _this = this;
@@ -343,6 +346,7 @@ var scenes;
                     _this.player.x = _this.lastCheckpoint.x;
                     _this.player.y = _this.lastCheckpoint.y;
                     _this.moveScreen(_this.lastCheckpoint.index);
+                    _this.deadSound = createjs.Sound.play("dead");
                 }
             });
             this.ghosts.forEach(function (ghost) {
@@ -350,6 +354,7 @@ var scenes;
                     _this.player.x = _this.lastCheckpoint.x;
                     _this.player.y = _this.lastCheckpoint.y;
                     _this.moveScreen(_this.lastCheckpoint.index);
+                    _this.deadSound = createjs.Sound.play("dead");
                 }
             });
             if (managers.AABBCollisions.Check(this.end, this.player)) {
