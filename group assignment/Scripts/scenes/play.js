@@ -322,7 +322,8 @@ var scenes;
                     }
                     else if (managers.AABBCollisions.checKSides(_this.player, wall) == 2) {
                         _this.player.y = wall.y + wall.halfH + _this.player.halfH - 0.1;
-                        _this.player.vSpeed = 0.5;
+                        if (_this.player.vSpeed < 0.5)
+                            _this.player.vSpeed = 0.5;
                     }
                     else if (managers.AABBCollisions.checKSides(_this.player, wall) == 3) {
                         _this.player.x = wall.x + wall.halfW + _this.player.halfW + 0.1;

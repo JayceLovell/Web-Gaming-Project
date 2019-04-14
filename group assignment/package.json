@@ -29,7 +29,7 @@
     "preloadjs": "^1.0.1",
     "soundjs": "^1.0.1",
     "tweenjs": "^1.0.2",
-    "typescript": "^3.3.4000",
+    "typescript": "^3.4.3",
     "yarn": "^1.13.0"
   }
 }
