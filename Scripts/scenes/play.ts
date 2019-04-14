@@ -26,7 +26,7 @@ module scenes {
             super(assetManager);
             this.backGroundMusic = createjs.Sound.play("backGroundSound");
             this.backGroundMusic.loop = -1;
-            this.backGroundMusic.volume = 10;
+            this.backGroundMusic.volume =10;
 
             this.Start();
         }
