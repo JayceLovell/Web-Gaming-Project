@@ -32,6 +32,8 @@
         {id: "savePoint", src:"./Assets/SpriteSheets/Individual/savePoint.png"},
         {id: "portal", src:"./Assets/SpriteSheets/Individual/portal1.png"},
         {id: "ghost", src:"./Assets/SpriteSheets/Individual/evilHand.png"},
+        {id: "dead", src:"./Assets/Sounds/Oof.mp3"},
+        {id: "backGroundSound", src:"./Assets/Sounds/TrollSong.mp3"},
 
 
     ];

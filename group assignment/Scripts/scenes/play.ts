@@ -18,10 +18,14 @@ module scenes {
         private traps: Array<objects.GameObject>;
         private trapsActivation: Array<boolean>;
         private trap2Progress:number;
+        private backGroundMusic:createjs.AbstractSoundInstance;
         
         // Constructor
         constructor(assetManager: createjs.LoadQueue) {
             super(assetManager);
+            this.backGroundMusic = createjs.Sound.play("backGroundSound");
+            this.backGroundMusic.loop = -1;
+            this.backGroundMusic.volume = 10;
 
             this.Start();
         }
