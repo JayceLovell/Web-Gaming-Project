@@ -346,6 +346,7 @@ var scenes;
                     _this.player.x = _this.lastCheckpoint.x;
                     _this.player.y = _this.lastCheckpoint.y;
                     _this.moveScreen(_this.lastCheckpoint.index);
+                    _this.deadSound = createjs.Sound.play("dead");
                 }
             });
             this.ghosts.forEach(function (ghost) {
@@ -353,6 +354,7 @@ var scenes;
                     _this.player.x = _this.lastCheckpoint.x;
                     _this.player.y = _this.lastCheckpoint.y;
                     _this.moveScreen(_this.lastCheckpoint.index);
+                    _this.deadSound = createjs.Sound.play("dead");
                 }
             });
             if (managers.AABBCollisions.Check(this.end, this.player)) {

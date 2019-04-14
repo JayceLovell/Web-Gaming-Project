@@ -19,6 +19,7 @@ module scenes {
         private trapsActivation: Array<boolean>;
         private trap2Progress:number;
         private backGroundMusic:createjs.AbstractSoundInstance;
+        private deadSound:createjs.AbstractSoundInstance;
         
         // Constructor
         constructor(assetManager: createjs.LoadQueue) {
@@ -367,6 +368,7 @@ module scenes {
                     this.player.x=this.lastCheckpoint.x;
                     this.player.y=this.lastCheckpoint.y;
                     this.moveScreen(this.lastCheckpoint.index);
+                    this.deadSound =createjs.Sound.play("dead");
                 }
                 
             }); 
@@ -376,6 +378,7 @@ module scenes {
                     this.player.x=this.lastCheckpoint.x;
                     this.player.y=this.lastCheckpoint.y;
                     this.moveScreen(this.lastCheckpoint.index);
+                    this.deadSound =createjs.Sound.play("dead");
                 }
             });   
             
